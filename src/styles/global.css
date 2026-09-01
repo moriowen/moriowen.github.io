@@ -27,6 +27,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Nothing may push the page sideways. */
+  overflow-x: hidden;
 }
 
 body {
@@ -40,12 +42,16 @@ body {
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Long words, URLs and identifiers wrap instead of overflowing. */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .wrap {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 4.5rem 1.5rem 6rem;
+  padding: clamp(2.25rem, 8vw, 4.5rem) clamp(1.15rem, 5vw, 1.5rem)
+    clamp(3.5rem, 10vw, 6rem);
 }
 
 a {
@@ -74,7 +80,7 @@ ul {
 
 .name {
   margin: 0 0 0.35rem;
-  font-size: 1.6rem;
+  font-size: clamp(1.4rem, 1.15rem + 1.4vw, 1.6rem);
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -205,14 +211,6 @@ footer {
   font-size: 0.85rem;
 }
 
-@media (max-width: 34rem) {
-  .wrap {
-    padding-top: 3rem;
-  }
-  .entry-when {
-    width: 100%;
-  }
-}
 
 /* ---- Linked sections and entries ---- */
 
@@ -376,4 +374,147 @@ section.bare {
   border: none;
   border-top: 1px solid var(--rule);
   margin: 2rem 0;
+}
+
+
+/* ============================================================
+   Responsive
+   Base styles above are the small-screen case where they can be.
+   These blocks handle what genuinely needs to differ.
+   ============================================================ */
+
+/* Tables can't reflow, so give them their own scroll box. */
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose th,
+.prose td {
+  white-space: nowrap;
+}
+
+/* Phones and small tablets */
+@media (max-width: 40rem) {
+  body {
+    font-size: 15.5px;
+    line-height: 1.62;
+  }
+
+  /* Meta drops onto its own line under the title instead of fighting it. */
+  .entry-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+
+  .entry-when {
+    white-space: normal;
+    order: 2;
+  }
+
+  .entry-title {
+    order: 1;
+  }
+
+  .entry {
+    margin-bottom: 2rem;
+  }
+
+  /* Bigger tap targets on the link rows. */
+  .links {
+    gap: 0.15rem 1rem;
+  }
+
+  .links a {
+    padding: 0.3rem 0;
+  }
+
+  .crumb {
+    margin-bottom: 1.5rem;
+  }
+
+  .crumb a {
+    padding: 0.25rem 0;
+    display: inline-block;
+  }
+
+  section {
+    margin-top: 2.5rem;
+  }
+
+  .prose {
+    margin-top: 2rem;
+  }
+
+  .prose pre {
+    /* Bleed to the edges so code has room to breathe. */
+    margin-left: calc(-1 * clamp(1.15rem, 5vw, 1.5rem));
+    margin-right: calc(-1 * clamp(1.15rem, 5vw, 1.5rem));
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 22rem) {
+  body {
+    font-size: 15px;
+  }
+
+  .links {
+    gap: 0.15rem 0.85rem;
+    font-size: 0.86rem;
+  }
+}
+
+/* Coarse pointers: the hover-reveal arrow never gets a hover, so pin it on. */
+@media (hover: none) {
+  .arr {
+    opacity: 0.55;
+    transform: translateX(0);
+  }
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Print: the overview doubles as a resume. */
+@media print {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --muted: #444;
+    --rule: #ccc;
+    --accent: #000;
+  }
+
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .crumb,
+  .arr {
+    display: none;
+  }
+
+  a {
+    border-bottom: none;
+  }
+
+  .entry,
+  section {
+    break-inside: avoid;
+  }
 }

@@ -1,18 +1,19 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
-import {
-  site,
-  links,
-  about,
-  education,
-  experience,
-  publications,
-  projects,
-  awards,
-  skills,
-  elsewhere,
-} from '../data/site';
+import Entry from '../components/Entry.astro';
+import { site, links, intro, skills, elsewhere } from '../data/site';
+import { sections } from '../data/sections';
+
+const live = await Promise.all(
+  sections.map(async (s) => ({
+    ...s,
+    entries: (await getCollection(s.slug, ({ data }) => !data.draft)).sort(
+      (a, b) => a.data.order - b.data.order
+    ),
+  }))
+);
 
 const year = new Date().getFullYear();
 ---
@@ -26,75 +27,26 @@ const year = new Date().getFullYear();
     </nav>
   </header>
 
-  <Section title="About">
-    {about.map((p) => <p>{p}</p>)}
+  <Section title="About" href="/about/">
+    {intro.map((p) => <p>{p}</p>)}
   </Section>
 
-  <Section title="Experience">
-    {
-      experience.map((e) => (
-        <div class="entry">
-          <div class="entry-head">
-            <h3 class="entry-title">{e.role}</h3>
-            <span class="entry-when">{e.when}</span>
-          </div>
-          <p class="entry-sub">{e.org}</p>
-          <ul class="bullets">
-            {e.points.map((p) => <li>{p}</li>)}
-          </ul>
-        </div>
-      ))
-    }
-  </Section>
-
-  <Section title="Publications">
-    {
-      publications.map((p) => (
-        <div class="entry">
-          <div class="entry-head">
-            <h3 class="entry-title">
-              {p.href ? <a href={p.href}>{p.title}</a> : p.title}
-            </h3>
-            <span class="entry-when">{p.venue}</span>
-          </div>
-          <p class="entry-sub">{p.authors}</p>
-          <p class="note">{p.note}</p>
-        </div>
-      ))
-    }
-  </Section>
-
-  <Section title="Projects">
-    {
-      projects.map((p) => (
-        <div class="entry">
-          <div class="entry-head">
-            <h3 class="entry-title">
-              {p.href ? <a href={p.href}>{p.name}</a> : p.name}
-            </h3>
-            <span class="entry-when">{p.stack}</span>
-          </div>
-          <p class="note">{p.note}</p>
-        </div>
-      ))
-    }
-  </Section>
-
-  <Section title="Education">
-    {
-      education.map((e) => (
-        <div class="entry">
-          <div class="entry-head">
-            <h3 class="entry-title">{e.school}</h3>
-            <span class="entry-when">{e.when}</span>
-          </div>
-          <p class="entry-sub">
-            {e.degree} &middot; {e.where}
-          </p>
-        </div>
-      ))
-    }
-  </Section>
+  {
+    live.map((s) => (
+      <Section title={s.title} href={`/${s.slug}/`}>
+        {s.entries.map((e) => (
+          <Entry
+            href={`/${s.slug}/${e.id}/`}
+            title={e.data.title}
+            subtitle={e.data.subtitle}
+            meta={e.data.meta}
+            summary={e.data.summary}
+            bullets={e.data.bullets}
+          />
+        ))}
+      </Section>
+    ))
+  }
 
   <Section title="Skills">
     <div class="skills">
@@ -106,12 +58,6 @@ const year = new Date().getFullYear();
         ))
       }
     </div>
-  </Section>
-
-  <Section title="Awards">
-    <ul class="bullets">
-      {awards.map((a) => <li>{a}</li>)}
-    </ul>
   </Section>
 
   <Section title="Elsewhere">

@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Entry from '../../components/Entry.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const { sections } = await import('../../data/sections');
+  return Promise.all(
+    sections.map(async (s) => ({
+      params: { section: s.slug },
+      props: {
+        section: s,
+        entries: (await getCollection(s.slug, ({ data }) => !data.draft)).sort(
+          (a, b) => a.data.order - b.data.order
+        ),
+      },
+    }))
+  );
+}
+
+const { section, entries } = Astro.props;
+---
+
+<Base title={`${section.title} - ${site.name}`} description={section.blurb}>
+  <nav class="crumb"><a href="/">&larr; {site.name}</a></nav>
+
+  <h1 class="name">{section.title}</h1>
+  <p class="tagline">{section.blurb}</p>
+
+  <section class="bare">
+    {
+      entries.map((e) => (
+        <Entry
+          href={`/${section.slug}/${e.id}/`}
+          title={e.data.title}
+          subtitle={e.data.subtitle}
+          meta={e.data.meta}
+          summary={e.data.summary}
+        />
+      ))
+    }
+  </section>
+
+  <footer>
+    <p><a href="/">Back to the overview</a></p>
+  </footer>
+</Base>

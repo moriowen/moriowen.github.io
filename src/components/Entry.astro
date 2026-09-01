@@ -1,0 +1,31 @@
+---
+// One entry, used on both the overview and the section index pages.
+interface Props {
+  href: string;
+  title: string;
+  subtitle?: string;
+  meta?: string;
+  summary?: string;
+  bullets?: string[];
+}
+const { href, title, subtitle, meta, summary, bullets = [] } = Astro.props;
+---
+
+<div class="entry">
+  <div class="entry-head">
+    <h3 class="entry-title"><a href={href}>{title}</a></h3>
+    {meta && <span class="entry-when">{meta}</span>}
+  </div>
+  {subtitle && <p class="entry-sub">{subtitle}</p>}
+  {
+    bullets.length > 0 ? (
+      <ul class="bullets">
+        {bullets.map((b) => (
+          <li>{b}</li>
+        ))}
+      </ul>
+    ) : (
+      summary && <p class="note">{summary}</p>
+    )
+  }
+</div>

@@ -4,11 +4,45 @@ Personal site. Astro, static, zero JavaScript shipped to the browser.
 
 ## Editing
 
-Almost everything lives in one file: `src/data/site.ts`. Bio, experience, publications,
-projects, skills, awards, links. Change it there and the page updates.
+Content lives in Markdown, one file per entry, under `src/content/`:
 
-Layout is `src/pages/index.astro`, styling is `src/styles/global.css` (one file, CSS
-variables at the top for the palette, light and dark).
+```
+src/content/
+  experience/*.md     projects/*.md      awards/*.md
+  publications/*.md   education/*.md     pages/about.md
+```
+
+Frontmatter drives the resume-style overview on `/`. The Markdown body below it is the detailed
+writeup, shown on that entry's own page. Every entry file currently has `TODO` headings sketching
+what belongs there.
+
+Frontmatter fields (all optional except `title`):
+
+| field | shows up as |
+|---|---|
+| `title` | entry heading, links to the detail page |
+| `subtitle` | line under the title (employer, authors, degree) |
+| `meta` | right-aligned (dates, venue, stack) |
+| `summary` | one paragraph on the overview and section index |
+| `bullets` | resume-style points on the overview, used instead of `summary` |
+| `external` | off-site links on the detail page: `[{label, href}]` |
+| `order` | lower sorts first |
+| `draft` | `true` hides it everywhere |
+
+## Routes
+
+| path | what |
+|---|---|
+| `/` | resume-style overview, every section and entry clickable |
+| `/about/` | long-form bio, from `src/content/pages/about.md` |
+| `/<section>/` | section index with summaries |
+| `/<section>/<slug>/` | the full writeup |
+
+Sections and their order are `src/data/sections.ts`. To add one: add it there, make the matching
+folder under `src/content/`, and register it in `src/content.config.ts`. Routes generate themselves.
+
+Site title, tagline, links, skills, and the short intro are `src/data/site.ts`.
+Styling is one file, `src/styles/global.css`, with the palette as CSS variables at the top.
 
 ## Running it
 
@@ -32,4 +66,5 @@ Because the repo is named `moriowen.github.io`, it serves at the root:
 
 - Google Scholar link (`links` in `src/data/site.ts`, commented out)
 - `public/resume.pdf` and the resume link (commented out)
-- `href` on publications and projects, currently empty strings so nothing renders as a link
+- `external` links on each entry (paper PDFs, repos, live demos), currently empty
+- The `TODO` sections inside every file under `src/content/`

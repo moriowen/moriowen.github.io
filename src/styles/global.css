@@ -213,3 +213,167 @@ footer {
     width: 100%;
   }
 }
+
+/* ---- Linked sections and entries ---- */
+
+h2 a {
+  border-bottom: none;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+h2 a:hover {
+  color: var(--accent);
+}
+
+.arr {
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+h2 a:hover .arr {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.entry-title a {
+  border-bottom: none;
+}
+
+.entry-title a:hover {
+  border-bottom: 1px solid var(--accent);
+}
+
+/* Whole entry hints that it is clickable */
+.entry:hover .entry-title a {
+  color: var(--accent);
+}
+
+section.bare {
+  margin-top: 2.5rem;
+}
+
+/* ---- Breadcrumb ---- */
+
+.crumb {
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.crumb a {
+  border-bottom: none;
+  color: var(--muted);
+}
+
+.crumb a:hover {
+  color: var(--accent);
+}
+
+.crumb span {
+  margin: 0 0.4rem;
+  opacity: 0.5;
+}
+
+/* ---- Long-form writeups ---- */
+
+.prose {
+  margin-top: 2.5rem;
+}
+
+.prose h2 {
+  margin: 2.25rem 0 0.75rem;
+  padding: 0;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--fg);
+}
+
+.prose h3 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.35rem;
+}
+
+.prose li::marker {
+  color: var(--muted);
+}
+
+.prose blockquote {
+  margin: 1.25rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--rule);
+  padding: 0.12em 0.35em;
+  border-radius: 3px;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}

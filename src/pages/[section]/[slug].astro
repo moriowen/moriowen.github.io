@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const { sections } = await import('../../data/sections');
+  const paths = await Promise.all(
+    sections.map(async (s) => {
+      const entries = await getCollection(s.slug, ({ data }) => !data.draft);
+      return entries.map((entry) => ({
+        params: { section: s.slug, slug: entry.id },
+        props: { entry, section: s },
+      }));
+    })
+  );
+  return paths.flat();
+}
+
+const { entry, section } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<Base title={`${d.title} - ${site.name}`} description={d.summary ?? section.blurb}>
+  <nav class="crumb">
+    <a href="/">{site.name}</a> <span>/</span> <a href={`/${section.slug}/`}>{section.title}</a>
+  </nav>
+
+  <h1 class="name">{d.title}</h1>
+  {d.subtitle && <p class="entry-sub">{d.subtitle}</p>}
+  {d.meta && <p class="tagline">{d.meta}</p>}
+
+  {
+    d.external.length > 0 && (
+      <nav class="links">
+        {d.external.map((l) => (
+          <a href={l.href} rel="noopener">
+            {l.label}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+
+  <article class="prose">
+    <Content />
+  </article>
+
+  <footer>
+    <p>
+      <a href={`/${section.slug}/`}>&larr; All {section.title.toLowerCase()}</a>
+    </p>
+  </footer>
+</Base>

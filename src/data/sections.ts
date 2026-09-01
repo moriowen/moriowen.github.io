@@ -8,7 +8,10 @@ export const sections = [
   {
     slug: 'publications',
     title: 'Publications',
-    blurb: 'Four papers, mostly on getting machines to understand long video.',
+    blurb:
+      'Four undergraduate papers. The arc runs from detecting a license plate in a single frame, ' +
+      'through surveying how vehicles perceive the world, to asking a long surveillance video a ' +
+      'question in plain English.',
   },
   {
     slug: 'projects',

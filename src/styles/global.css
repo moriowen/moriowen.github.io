@@ -518,3 +518,80 @@ section.bare {
     break-inside: avoid;
   }
 }
+
+/* ---- Roles nested under one employer ---- */
+
+.roles {
+  margin-top: 0.9rem;
+}
+
+.roles-top {
+  margin-top: 2.5rem;
+}
+
+.role {
+  margin-bottom: 1.4rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--rule);
+}
+
+.role:last-child {
+  margin-bottom: 0;
+}
+
+.role-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 1rem;
+}
+
+.role-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 0;
+  border: none;
+  color: var(--fg);
+}
+
+.role-when {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.role-where {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.role .bullets {
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 40rem) {
+  .role-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.05rem;
+  }
+
+  .role-when {
+    white-space: normal;
+    order: 2;
+  }
+
+  .role-title {
+    order: 1;
+  }
+
+  .role {
+    padding-left: 0.75rem;
+  }
+}

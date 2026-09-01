@@ -15,6 +15,18 @@ const entry = z.object({
   meta: z.string().optional(),
   summary: z.string().optional(),
   bullets: z.array(z.string()).default([]),
+  // Multiple stints at one employer: the company is the entry, roles nest under it.
+  roles: z
+    .array(
+      z.object({
+        title: z.string(),
+        when: z.string().optional(),
+        where: z.string().optional(),
+        kind: z.string().optional(),
+        bullets: z.array(z.string()).default([]),
+      })
+    )
+    .default([]),
   external: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
   order: z.number().default(99),
   draft: z.boolean().default(false),

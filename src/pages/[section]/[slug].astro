@@ -43,6 +43,31 @@ const d = entry.data;
     )
   }
 
+  {
+    d.roles.length > 0 && (
+      <div class="roles roles-top">
+        {d.roles.map((r) => (
+          <div class="role">
+            <div class="role-head">
+              <h2 class="role-title">{r.title}</h2>
+              {r.when && <span class="role-when">{r.when}</span>}
+            </div>
+            {(r.where || r.kind) && (
+              <p class="role-where">{[r.kind, r.where].filter(Boolean).join(' \u00b7 ')}</p>
+            )}
+            {r.bullets.length > 0 && (
+              <ul class="bullets">
+                {r.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   <article class="prose">
     <Content />
   </article>

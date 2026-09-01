@@ -1,5 +1,15 @@
 ---
 // One entry, used on both the overview and the section index pages.
+// `roles` lets one employer hold several stints. `dense` drops the detail on
+// section index pages, where the summary is doing the work.
+interface Role {
+  title: string;
+  when?: string;
+  where?: string;
+  kind?: string;
+  bullets?: string[];
+}
+
 interface Props {
   href: string;
   title: string;
@@ -7,8 +17,20 @@ interface Props {
   meta?: string;
   summary?: string;
   bullets?: string[];
+  roles?: Role[];
+  dense?: boolean;
 }
-const { href, title, subtitle, meta, summary, bullets = [] } = Astro.props;
+
+const {
+  href,
+  title,
+  subtitle,
+  meta,
+  summary,
+  bullets = [],
+  roles = [],
+  dense = false,
+} = Astro.props;
 ---
 
 <div class="entry">
@@ -17,15 +39,31 @@ const { href, title, subtitle, meta, summary, bullets = [] } = Astro.props;
     {meta && <span class="entry-when">{meta}</span>}
   </div>
   {subtitle && <p class="entry-sub">{subtitle}</p>}
-  {
-    bullets.length > 0 ? (
-      <ul class="bullets">
-        {bullets.map((b) => (
-          <li>{b}</li>
-        ))}
-      </ul>
-    ) : (
-      summary && <p class="note">{summary}</p>
-    )
-  }
+
+  {bullets.length > 0 && !dense ? (
+    <ul class="bullets">
+      {bullets.map((b) => <li>{b}</li>)}
+    </ul>
+  ) : (
+    summary && <p class="note">{summary}</p>
+  )}
+
+  {roles.length > 0 && (
+    <div class="roles">
+      {roles.map((r) => (
+        <div class="role">
+          <div class="role-head">
+            <h4 class="role-title">{r.title}</h4>
+            {r.when && <span class="role-when">{r.when}</span>}
+          </div>
+          {r.where && <p class="role-where">{r.where}</p>}
+          {!dense && r.bullets && r.bullets.length > 0 && (
+            <ul class="bullets">
+              {r.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
 </div>

@@ -595,3 +595,80 @@ section.bare {
     padding-left: 0.75rem;
   }
 }
+
+/* ---- Sticky section nav ---- */
+
+.sitenav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+
+.sitenav-inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0.5rem clamp(1.15rem, 5vw, 1.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0 1.05rem;
+  /* Too many sections for a narrow screen: scroll sideways rather than wrap. */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.sitenav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.sitenav a {
+  color: var(--muted);
+  border-bottom: 1px solid transparent;
+  padding: 0.25rem 0;
+  white-space: nowrap;
+}
+
+.sitenav a:hover,
+.sitenav a[aria-current='page'] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.sitenav-home {
+  letter-spacing: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* The nav covers the top of the viewport, so anchored sections stop below it. */
+html {
+  scroll-behavior: smooth;
+}
+
+section[id],
+:target {
+  scroll-margin-top: 3.25rem;
+}
+
+/* The overview's first section sits under a tall header; keep its own spacing. */
+.wrap {
+  padding-top: clamp(1.75rem, 6vw, 3rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media print {
+  .sitenav {
+    display: none;
+  }
+}

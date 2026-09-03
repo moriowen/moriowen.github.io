@@ -8,8 +8,8 @@ summary: >-
   rate, at 0.80 PR-AUC on a task-controlled evaluation.
 bullets:
   - Cut coding-agent compute by 25% with a one-point drop in solve rate by predicting run failure from the first few steps of execution.
-  - Built supervised models over 80k coding-agent trajectories from Agent SWE Bench to predict failure early, reaching 0.80 PR-AUC on a task-controlled evaluation.
-  - Combined supervised prediction with unsupervised clustering to identify recurring failure modes across 59k failed runs, explaining why agents fail and when one should continue or stop.
+  - Built supervised learning models over 80k coding-agent trajectories from Agent SWE Bench to predict failure from the first few steps, achieving 0.80 PR-AUC on a task-controlled evaluation.
+  - Combined supervised prediction with unsupervised clustering to identify recurring failure modes across 59k failed runs, explain why agents fail, and determine when an agent should continue or stop.
 ---
 
 ## The bet

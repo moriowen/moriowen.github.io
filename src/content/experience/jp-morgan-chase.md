@@ -14,16 +14,16 @@ roles:
     where: Mumbai
     bullets:
       - Owned cross-service design and production readiness for a new business line across 7 microservices on a multi-tenant settlement platform, scaling throughput to 5M+ trades per day.
-      - Built an agentic SDLC pipeline that autonomously translated Jira requirements into code changes across a multi-service architecture, reproduced issues against local infrastructure, validated them with automated tests, and raised developer-ready PRs. 75% of those PRs merged with minimal edits.
-      - Built a regression framework using LLM agents that generates and diagnoses multi-service test workflows, automating 300+ scenarios and cutting manual test effort by 90%. Adopted by 30+ engineers across 5 teams.
-      - Designed an aggregation engine in Spring Boot reducing high-volume trade streams into consolidated settlement instructions across configurable dimensions, cutting instruction volume by 70%.
+      - Built an agentic SDLC pipeline that autonomously translated Jira requirements into code changes across a multi-service architecture, reproduced issues with local infrastructure, validated via automated tests, and raised developer-ready PRs for review, with 75% PRs merged with minimal edits.
+      - Built a regression framework using LLM agents that generates and diagnoses multi-service test workflows, automating 300+ scenarios and cutting manual test effort by 90%; adopted by 30+ engineers across 5 teams.
+      - Designed an aggregation engine in Spring Boot reducing high-volume trade streams into consolidated settlement instructions across configurable dimensions, cutting down instruction volume by 70%.
   - title: Software Engineer I
     when: Jun 2023 - Jan 2026
     where: Mumbai
     bullets:
-      - Led extraction of a high-throughput microservice from a legacy trade settlement monolith, processing 1M+ messages per day on an event-driven, non-blocking stack with Kafka and Spring WebFlux.
+      - Led extraction of a high-throughput microservice from a legacy trade settlement monolith, processing 1M+ messages per day, with an event-driven, non-blocking stack with Kafka and Spring WebFlux.
       - Designed distributed end-of-day orchestration coordinating 3 services to close and settle the day's book within a 30-minute cutoff, handling race conditions, ordering dependencies, and concurrent state transitions with idempotent replay on failure.
-      - Architected a materialized datastore using Elasticsearch, aggregating and rehydrating data from multiple source systems to provide sub-150ms complex search over 750k records, enabling the decommission of 4 legacy systems. Recognized publicly by an Executive Director at the SEP cohort meet for this work.
+      - Architected a materialized datastore using Elasticsearch, aggregating and rehydrating data from multiple source systems to provide sub-150ms complex search over 750k records, enabling the decommission of 4 legacy systems.
       - Migrated 15 legacy applications to an in-house Kubernetes platform, saving $450k annually in infrastructure costs and reducing deployment time by 50%.
   - title: Software Engineer Intern
     when: Feb 2023 - May 2023
@@ -35,8 +35,7 @@ roles:
     when: Jan 2022 - Jul 2022
     where: Bengaluru
     bullets:
-      - Developed a cloud resource discovery framework that surfaced 10k+ resources, consolidating AWS Config, Splunk, Terraform, and tagging APIs into a unified inventory with Qlik Sense dashboards for tracking ownership.
-      - Improved infrastructure visibility for the DevOps team and enabled data-driven cleanup, identifying and decommissioning 50+ unused resources across 20+ AWS accounts.
+      - Developed a cloud resource discovery framework that helped discover 10k+ resources, consolidating AWS Config, Splunk, Terraform, and tagging APIs into a unified inventory using Qlik Sense dashboards for tracking resource ownership, enabling data-driven cleanup decisions and improving infrastructure visibility for the DevOps team.
 ---
 
 ## The domain

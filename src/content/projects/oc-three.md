@@ -1,7 +1,7 @@
 ---
 title: OC-Three
 meta: React, Firebase, Django, Three.js
-order: 1
+order: 2
 summary: >-
   Event management portal for a college fest. 1,000+ registered users and Rs 65K+ in transactions,
   a Three.js campus model for navigation, and an admin dashboard that let 23 non-technical event

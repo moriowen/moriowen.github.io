@@ -27,13 +27,13 @@ const year = new Date().getFullYear();
     </nav>
   </header>
 
-  <Section title="About" href="/about/">
+  <Section title="About" href="/about/" id="about">
     {intro.map((p) => <p>{p}</p>)}
   </Section>
 
   {
     live.map((s) => (
-      <Section title={s.title} href={`/${s.slug}/`}>
+      <Section title={s.title} href={`/${s.slug}/`} id={s.slug}>
         {s.entries.map((e) => (
           <Entry
             href={`/${s.slug}/${e.id}/`}
@@ -49,7 +49,7 @@ const year = new Date().getFullYear();
     ))
   }
 
-  <Section title="Skills">
+  <Section title="Skills" id="skills">
     <div class="skills">
       {
         skills.map((s) => (

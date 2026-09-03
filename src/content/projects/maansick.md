@@ -1,7 +1,7 @@
 ---
 title: MaanSick
 meta: Python, DIPY, scikit-learn, Flask, React
-order: 2
+order: 3
 summary: >-
   Classifies depression vulnerability from diffusion tensor imaging metrics in 3D neuroimaging
   data. The SVM reaches 90%+ accuracy, served through Flask for real-time inference.

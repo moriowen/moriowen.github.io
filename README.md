@@ -12,6 +12,17 @@ src/content/
   publications/*.md   education/*.md     pages/about.md
 ```
 
+Everything else that belongs to the resume lives here too:
+
+```
+public/resume.pdf     the one-page resume, linked from the header
+public/papers/*.pdf   the four papers plus the B.Tech project report
+notes/*.md            working notes: source review, section and resume recommendations
+```
+
+`notes/` is version-controlled but never built or served. Astro only publishes `src/pages/`
+and the contents of `public/`, so nothing under `notes/` is reachable from the site.
+
 Frontmatter drives the resume-style overview on `/`. The Markdown body below it is the detailed
 writeup, shown on that entry's own page. Every entry file currently has `TODO` headings sketching
 what belongs there.
@@ -65,6 +76,9 @@ Because the repo is named `moriowen.github.io`, it serves at the root:
 ## Still to fill in
 
 - Google Scholar link (`links` in `src/data/site.ts`, commented out)
-- `public/resume.pdf` and the resume link (commented out)
-- `external` links on each entry (paper PDFs, repos, live demos), currently empty
-- The `TODO` sections inside every file under `src/content/`
+- `external` links on the project and experience entries (repos, live demos); the publications
+  already point at their PDFs
+- Verify the SSRN link on the autonomous-vehicles survey (abstract id 4296815, taken from the
+  paper itself, not confirmed against the live page)
+- The `TODO` sections inside `src/content/pages/about.md` and
+  `src/content/publications/leveraging-llms-for-video-querying.md`

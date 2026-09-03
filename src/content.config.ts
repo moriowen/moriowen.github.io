@@ -27,7 +27,20 @@ const entry = z.object({
       })
     )
     .default([]),
-  external: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
+  // href is either an absolute URL or a site-root path, e.g. /papers/securepark.pdf
+  external: z
+    .array(
+      z.object({
+        label: z.string(),
+        href: z
+          .string()
+          .refine(
+            (h) => h.startsWith('/') || /^https?:\/\//.test(h),
+            'href must be an absolute URL or start with /'
+          ),
+      })
+    )
+    .default([]),
   order: z.number().default(99),
   draft: z.boolean().default(false),
 });

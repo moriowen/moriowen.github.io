@@ -8,6 +8,8 @@ summary: >-
   in it? Twelve model-and-extractor configurations on UCF-Crime. Best average accuracy was 84.53%
   for SlowFast with histogram extraction, and frame selection cut reported per-epoch time by as
   much as 68.75%.
+external:
+  - { label: "Paper (PDF)", href: "/papers/keyframe-extraction-assisted-crime-detection.pdf" }
 ---
 
 ## The question

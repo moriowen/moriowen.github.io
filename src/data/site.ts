@@ -11,13 +11,13 @@ export const site = {
   location: 'Atlanta, GA',
 };
 
-// TODO: fill in the Scholar id and drop a resume.pdf in public/, then uncomment.
+// TODO: fill in the Scholar id, then uncomment that line.
 export const links = [
   { label: 'Email', href: 'mailto:amohite8@gatech.edu' },
   { label: 'GitHub', href: 'https://github.com/moriowen' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/atharva-mohite/' },
   // { label: 'Scholar', href: 'https://scholar.google.com/citations?user=REPLACE_ME' },
-  // { label: 'Resume', href: '/resume.pdf' },
+  { label: 'Resume', href: '/resume.pdf' },
 ];
 
 // Short intro on the overview page. The long version is src/content/pages/about.md.

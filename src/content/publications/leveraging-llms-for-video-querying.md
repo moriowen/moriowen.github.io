@@ -7,6 +7,9 @@ summary: >-
   Ask a long surveillance video a question in plain English and get back the timestamps where it
   happened. Dense captioning with BMT or Vid2Seq, then an LLM over the timestamped captions. GPT-4
   reached 56% exact timestamp matching and 85% within a two-minute tolerance.
+external:
+  - { label: "Paper (PDF)", href: "/papers/leveraging-llms-for-video-querying.pdf" }
+  - { label: "Project report (PDF)", href: "/papers/leveraging-llms-for-video-querying-project-report.pdf" }
 ---
 
 ## The problem

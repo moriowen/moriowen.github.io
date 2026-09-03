@@ -7,6 +7,9 @@ summary: >-
   A survey of the perception stack in autonomous driving. The argument is that cameras alone are
   not enough, and that deploying autonomy on Indian roads is a materially different problem from
   deploying it anywhere else.
+external:
+  - { label: "Paper (PDF)", href: "/papers/computer-vision-in-autonomous-vehicles.pdf" }
+  - { label: "SSRN", href: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4296815" }
 ---
 
 ## Scope

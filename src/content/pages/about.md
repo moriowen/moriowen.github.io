@@ -26,5 +26,5 @@ would argue with someone about.
 
 ## Away from a keyboard
 
-Boxing, lifting, running, dancing, cooking, and writing. Collecting places to go and poems worth
-rereading.
+Boxing, playing pool, lifting, running, dancing, cooking, and writing. Collecting places to go and
+poems worth rereading.

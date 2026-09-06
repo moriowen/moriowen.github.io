@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Entry from '../components/Entry.astro';
-import { site, links, intro, skills, elsewhere } from '../data/site';
+import { site, links, tagline } from '../data/site';
 import { sections } from '../data/sections';
 
 const live = await Promise.all(
@@ -20,16 +20,24 @@ const year = new Date().getFullYear();
 
 <Base>
   <header>
-    <h1 class="name">{site.name}</h1>
-    <p class="tagline">{site.tagline}</p>
+    <div class="namerow">
+      <img
+        class="avatar"
+        src="/img/atharva.jpg"
+        alt={site.name}
+        width="400"
+        height="400"
+        loading="eager"
+        decoding="async"
+      />
+      <h1 class="name">{site.name}</h1>
+    </div>
+    {tagline.map((t) => <p class="tagline">{t}</p>)}
     <nav class="links">
       {links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
     </nav>
   </header>
 
-  <Section title="About" href="/about/" id="about">
-    {intro.map((p) => <p>{p}</p>)}
-  </Section>
 
   {
     live.map((s) => (
@@ -49,21 +57,6 @@ const year = new Date().getFullYear();
     ))
   }
 
-  <Section title="Skills" id="skills">
-    <div class="skills">
-      {
-        skills.map((s) => (
-          <div>
-            <strong>{s.group}</strong> <span>{s.items}</span>
-          </div>
-        ))
-      }
-    </div>
-  </Section>
-
-  <Section title="Elsewhere">
-    <p class="note">{elsewhere}</p>
-  </Section>
 
   <footer>
     <p>&copy; {year} {site.name} &middot; {site.location}</p>

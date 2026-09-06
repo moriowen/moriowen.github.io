@@ -7,14 +7,13 @@ const path = Astro.url.pathname;
 const home = path === '/';
 
 const items = [
-  { label: 'About', hash: '#about', href: '/about/', match: '/about' },
+  { label: 'About', hash: '/about/', href: '/about/', match: '/about' },
   ...sections.map((s) => ({
     label: s.title,
     hash: `#${s.slug}`,
     href: `/${s.slug}/`,
     match: `/${s.slug}`,
   })),
-  { label: 'Skills', hash: '#skills', href: '/#skills', match: null },
 ];
 ---
 

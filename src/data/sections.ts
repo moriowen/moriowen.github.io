@@ -23,11 +23,6 @@ export const sections = [
     title: 'Education',
     blurb: 'Degrees, coursework, and what I went there to learn.',
   },
-  {
-    slug: 'awards',
-    title: 'Awards',
-    blurb: 'Hackathons and competitions.',
-  },
 ] as const;
 
 export type SectionSlug = (typeof sections)[number]['slug'];

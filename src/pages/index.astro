@@ -20,19 +20,17 @@ const year = new Date().getFullYear();
 
 <Base>
   <header>
-    <div class="namerow">
-      <img
-        class="avatar"
-        src="/img/atharva.jpg"
-        alt={site.name}
-        width="400"
-        height="400"
-        loading="eager"
-        decoding="async"
-      />
-      <h1 class="name">{site.name}</h1>
-    </div>
-    {tagline.map((t) => <p class="tagline">{t}</p>)}
+    <img
+      class="avatar"
+      src="/img/atharva.jpg"
+      alt={site.name}
+      width="400"
+      height="400"
+      loading="eager"
+      decoding="async"
+    />
+    <h1 class="name">{site.name}</h1>
+    {tagline.map((t, i) => <p class={i === 0 ? 'tagline' : 'tagline clear'}>{t}</p>)}
     <nav class="links">
       {links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
     </nav>

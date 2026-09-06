@@ -78,26 +78,27 @@ ul {
 
 /* Header */
 
-/* Photo rides on the name line, so the intro below it stays one full-width
-   column and no ragged gap can open up beside it. */
-.namerow {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 1.1rem;
-}
-
-.namerow .name {
-  margin: 0;
-}
-
+/* The photo floats right so the name and the first tagline wrap around it.
+   The second tagline clears, which keeps the photo above the "away from a
+   keyboard" line at every width. */
 .avatar {
-  flex: none;
-  width: clamp(52px, 14vw, 64px);
-  height: clamp(52px, 14vw, 64px);
+  float: right;
+  width: clamp(76px, 22vw, 116px);
+  height: clamp(76px, 22vw, 116px);
+  margin: 0.2rem 0 0.6rem 1.1rem;
   border-radius: 6px;
   object-fit: cover;
   border: 1px solid var(--rule);
+}
+
+.tagline.clear {
+  clear: right;
+}
+
+/* The wrapping line runs the full measure; the 34rem readability cap would
+   otherwise end the line before it reaches the photo. */
+header .tagline:not(.clear) {
+  max-width: none;
 }
 
 .name {

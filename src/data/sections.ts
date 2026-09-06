@@ -6,17 +6,17 @@ export const sections = [
     blurb: 'Where I have worked and what I actually built there.',
   },
   {
+    slug: 'projects',
+    title: 'Projects',
+    blurb: 'Things built outside of work, usually because something was annoying.',
+  },
+  {
     slug: 'publications',
     title: 'Publications',
     blurb:
       'Four undergraduate papers. The arc runs from detecting a license plate in a single frame, ' +
       'through surveying how vehicles perceive the world, to asking a long surveillance video a ' +
       'question in plain English.',
-  },
-  {
-    slug: 'projects',
-    title: 'Projects',
-    blurb: 'Things built outside of work, usually because something was annoying.',
   },
   {
     slug: 'education',

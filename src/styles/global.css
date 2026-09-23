@@ -131,6 +131,10 @@ header .tagline:not(.clear) {
   border-bottom-color: var(--accent);
 }
 
+.entry-links {
+  margin-top: 0.45rem;
+}
+
 /* Sections */
 
 section {

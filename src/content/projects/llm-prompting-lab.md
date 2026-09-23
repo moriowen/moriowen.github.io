@@ -1,7 +1,7 @@
 ---
 title: LLM Prompting Lab
 meta: Ollama, Python
-order: 2
+order: 3
 summary: >-
   Benchmarks seven open-weight models on two tasks with checkable answers, character reversal and
   decimal division, across eleven temperatures and four prompting strategies. 14,935 graded trials,
@@ -9,6 +9,8 @@ summary: >-
 external:
   - label: Live
     href: https://llm-prompting-lab.vercel.app/
+  - label: Code
+    href: https://github.com/moriowen/llm-prompting-lab
 bullets:
   - Ran 14,935 graded trials over seven open-weight models from 1.54B to 32.8B parameters, self-hosted through Ollama.
   - Graded against ground truth computed independently in Python with decimal.Decimal and fractions.Fraction, so accuracy is checked rather than judged.

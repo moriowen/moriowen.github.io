@@ -10,6 +10,11 @@ interface Role {
   bullets?: string[];
 }
 
+interface ExternalLink {
+  label: string;
+  href: string;
+}
+
 interface Props {
   href: string;
   title: string;
@@ -18,6 +23,7 @@ interface Props {
   summary?: string;
   bullets?: string[];
   roles?: Role[];
+  external?: ExternalLink[];
   dense?: boolean;
 }
 
@@ -29,6 +35,7 @@ const {
   summary,
   bullets = [],
   roles = [],
+  external = [],
   dense = false,
 } = Astro.props;
 ---
@@ -46,6 +53,16 @@ const {
     </ul>
   ) : (
     summary && <p class="note">{summary}</p>
+  )}
+
+  {external.length > 0 && (
+    <nav class="links entry-links">
+      {external.map((l) => (
+        <a href={l.href} rel="noopener">
+          {l.label}
+        </a>
+      ))}
+    </nav>
   )}
 
   {roles.length > 0 && (

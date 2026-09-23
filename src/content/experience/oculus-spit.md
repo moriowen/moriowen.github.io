@@ -17,8 +17,6 @@ roles:
       - Designed and deployed OC-Admin, letting 23 non-technical event teams manage updates in real time through Firebase Firestore sync.
 ---
 
-The build itself is written up as a project: [OC-Three](/projects/oc-three/).
-
 ## Running the tech for a fest
 
 TODO: what the role actually involved beyond writing code. Team size, how you split the work, and

@@ -18,4 +18,4 @@ Publications, moving from license plate recognition to video understanding.
 
 ## Beyond coursework
 
-TODO: OC-Three, the fest, Smart India Hackathon. The things that actually taught you to ship.
+TODO: The fest, Smart India Hackathon. The things that actually taught you to ship.

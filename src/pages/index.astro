@@ -1,25 +1,36 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Section from '../components/Section.astro';
-import Entry from '../components/Entry.astro';
 import { site, links, tagline } from '../data/site';
 import { sections } from '../data/sections';
+import EntryList from '../components/EntryList.astro';
 
 const live = await Promise.all(
   sections.map(async (s) => ({
     ...s,
-    entries: (await getCollection(s.slug, ({ data }) => !data.draft)).sort(
-      (a, b) => a.data.order - b.data.order
-    ),
+    entries: (await getCollection(s.slug, ({ data }) => !data.draft))
+      .sort((a, b) => a.data.order - b.data.order)
+      .map((e) => ({ ...e, href: `/${s.slug}/${e.id}/` })),
   }))
 );
+
+// Selected work pulls featured entries from every section, in section order.
+const featured = live.flatMap((s) => s.entries.filter((e) => e.data.featured));
+
+// Below it, a featured entry is not repeated, except in publications, which
+// stay a complete list. A section left empty is skipped.
+const rest = live
+  .map((s) => ({
+    ...s,
+    entries: s.slug === 'publications' ? s.entries : s.entries.filter((e) => !e.data.featured),
+  }))
+  .filter((s) => s.entries.length > 0);
 
 const year = new Date().getFullYear();
 ---
 
 <Base>
-  <header>
+  <header class="intro">
     <img
       class="avatar"
       src="/img/atharva.jpg"
@@ -29,35 +40,42 @@ const year = new Date().getFullYear();
       loading="eager"
       decoding="async"
     />
-    <h1 class="name">{site.name}</h1>
-    {tagline.map((t, i) => <p class={i === 0 ? 'tagline' : 'tagline clear'}>{t}</p>)}
-    <nav class="links">
-      {links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
-    </nav>
+    <div>
+      <h1 class="name">{site.name}</h1>
+      {tagline.map((t) => <p class="tagline">{t}</p>)}
+      <p class="links">
+        {links.map((l, i) => (
+          <>
+            {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+            <a href={l.href} rel="me noopener">{l.label}</a>
+          </>
+        ))}
+      </p>
+    </div>
   </header>
 
+  {
+    featured.length > 0 && (
+      <section id="work">
+        <h2>Selected work</h2>
+        <EntryList kind="work" entries={featured} />
+      </section>
+    )
+  }
 
   {
-    live.map((s) => (
-      <Section title={s.title} href={`/${s.slug}/`} id={s.slug}>
-        {s.entries.map((e) => (
-          <Entry
-            href={`/${s.slug}/${e.id}/`}
-            title={e.data.title}
-            subtitle={e.data.subtitle}
-            meta={e.data.meta}
-            summary={e.data.summary}
-            bullets={e.data.bullets}
-            roles={e.data.roles}
-            external={e.data.external}
-          />
-        ))}
-      </Section>
+    rest.map((s) => (
+      <section id={s.slug}>
+        <h2>
+          <a href={`/${s.slug}/`}>{s.title}</a>
+        </h2>
+
+        <EntryList slug={s.slug} entries={s.entries} />
+      </section>
     ))
   }
 
-
   <footer>
-    <p>&copy; {year} {site.name} &middot; {site.location}</p>
+    <p>&copy; {year} {site.name}, {site.location}</p>
   </footer>
 </Base>

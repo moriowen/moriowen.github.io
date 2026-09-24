@@ -9,8 +9,6 @@ const { Content } = await render(entry);
 ---
 
 <Base title={`About - ${site.name}`} description={entry.data.description ?? site.description}>
-  <nav class="crumb"><a href="/">&larr; {site.name}</a></nav>
-
   <h1 class="name">{entry.data.title}</h1>
 
   <article class="prose">

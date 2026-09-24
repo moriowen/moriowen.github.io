@@ -25,29 +25,31 @@ The whole site is generated from two data files plus Markdown. Nothing is hand-r
 `src/data/sections.ts` is the spine. It lists the sections in the order they appear on the overview
 page, and everything downstream reads from it:
 
-- `src/pages/index.astro` renders one `Section` per entry in that array.
+- `src/pages/index.astro` renders one section per entry in that array, after "Selected work".
 - `src/pages/[section]/index.astro` and `[slug].astro` build their `getStaticPaths` from it, so all
   section index and detail routes appear automatically.
-- `src/components/Nav.astro` builds the sticky nav from it. On `/` the links are in-page anchors
-  (`#projects`); everywhere else they point at the real pages (`/projects/`). One component, both
-  behaviors, keyed off `Astro.url.pathname === '/'`.
+- `src/components/Nav.astro` builds the top bar (name plus section links) from it. It renders on
+  every page except `/`, keyed off `Astro.url.pathname === '/'`.
 
 Adding a section takes three edits: `src/data/sections.ts`, a folder under `src/content/`, and a
 line in `src/content.config.ts`. Routes, nav, and the overview follow.
 
 Every section shares one Zod schema in `src/content.config.ts` (`title`, `subtitle`, `meta`,
-`summary`, `bullets`, `roles`, `external`, `order`, `draft`), which is why sections are
-copy-paste to add. `order` sorts ascending within a section; `draft: true` hides an entry
-everywhere. `external[].href` is validated: absolute URL or site-root path only.
+`summary`, `bullets`, `roles`, `external`, `featured`, `order`, `draft`), which is why sections are
+copy-paste to add. `featured: true` also lists an entry under "Selected work" at the top of `/`
+(and drops it from its own section there, except publications, which stay complete). `order` sorts
+ascending within a section; `draft: true` hides an entry everywhere. `external[].href` is
+validated: absolute URL or site-root path only.
 
 Each Markdown file is two things at once. The frontmatter feeds the resume-style summary shown on
 `/` and on the section index; the Markdown body is the long writeup shown only on that entry's own
 page. Most entry bodies still carry `TODO` headings sketching what belongs there — those are the
 author's own placeholders, not defects to silently fill in.
 
-`src/components/Entry.astro` renders one entry on both the overview and the section index. Its
-`dense` prop is what differentiates them: dense drops bullets and role detail so the section index
-stays a summary. `roles` exists for one employer with several stints.
+`src/components/EntryList.astro` renders a section's entries identically on `/` and on the section
+index: a work grid for projects (and "Selected work"), an author list for publications, dated rows
+for everything else. Bullets and role detail appear only on an entry's own page. `roles` exists for
+one employer with several stints.
 
 Other pieces: `src/data/site.ts` (name, description, header links, tagline), `src/layouts/Base.astro`
 (head, meta, and the `Nav`), `src/styles/global.css` (the only stylesheet, palette as CSS variables

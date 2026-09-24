@@ -1,6 +1,7 @@
 ---
 title: LLM Prompting Lab
 meta: Ollama, Python
+featured: true
 order: 3
 summary: >-
   Benchmarks seven open-weight models on two tasks with checkable answers, character reversal and

@@ -1,31 +1,24 @@
 ---
-// Sticky section nav. On the overview the links are in-page anchors; on every
-// other page they point at the real section pages, so one component serves both.
+// Top bar for every page except the overview, which is short enough not to
+// need one. Name links home; sections link to their index pages.
 import { sections } from '../data/sections';
+import { site } from '../data/site';
 
 const path = Astro.url.pathname;
 const home = path === '/';
-
-const items = sections.map((s) => ({
-  label: s.title,
-  hash: `#${s.slug}`,
-  href: `/${s.slug}/`,
-  match: `/${s.slug}`,
-}));
 ---
 
-<nav class="sitenav" aria-label="Sections">
-  <div class="sitenav-inner">
-    {!home && <a class="sitenav-home" href="/" aria-label="Overview">&larr;</a>}
-    {
-      items.map((i) => (
-        <a
-          href={home ? i.hash : i.href}
-          aria-current={!home && i.match && path.startsWith(i.match) ? 'page' : undefined}
-        >
-          {i.label}
-        </a>
-      ))
-    }
-  </div>
-</nav>
+{
+  !home && (
+    <nav class="sitenav" aria-label="Site">
+      <a class="sitenav-name" href="/">{site.name}</a>
+      <span class="sitenav-links">
+        {sections.map((s) => (
+          <a href={`/${s.slug}/`} aria-current={path.startsWith(`/${s.slug}`) ? 'page' : undefined}>
+            {s.title}
+          </a>
+        ))}
+      </span>
+    </nav>
+  )
+}

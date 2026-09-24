@@ -8,6 +8,7 @@ import { glob } from 'astro/loaders';
 // - summary  : one paragraph shown on the overview and section index
 // - bullets  : optional resume-style points shown on the overview
 // - external : optional off-site link (paper PDF, repo, live demo)
+// - featured : also shown under "Selected work" at the top of the overview
 // - order    : lower sorts first
 const entry = z.object({
   title: z.string(),
@@ -41,6 +42,7 @@ const entry = z.object({
       })
     )
     .default([]),
+  featured: z.boolean().default(false),
   order: z.number().default(99),
   draft: z.boolean().default(false),
 });

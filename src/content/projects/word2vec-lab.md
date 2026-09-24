@@ -1,6 +1,7 @@
 ---
 title: Word2Vec Lab
 meta: PyTorch, gensim, Python
+featured: true
 order: 2
 summary: >-
   Five word embedding models trained, downloaded, and fine-tuned on the same corpus, then scored

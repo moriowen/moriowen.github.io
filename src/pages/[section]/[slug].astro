@@ -23,10 +23,6 @@ const d = entry.data;
 ---
 
 <Base title={`${d.title} - ${site.name}`} description={d.summary ?? section.blurb}>
-  <nav class="crumb">
-    <a href="/">{site.name}</a> <span>/</span> <a href={`/${section.slug}/`}>{section.title}</a>
-  </nav>
-
   <h1 class="name">{d.title}</h1>
   {d.subtitle && <p class="entry-sub">{d.subtitle}</p>}
   {d.meta && <p class="tagline">{d.meta}</p>}

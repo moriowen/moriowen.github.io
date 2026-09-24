@@ -1,21 +1,25 @@
-/* Minimal, zero-JS, system fonts only. No network requests after the HTML. */
+/* Plain, zero-JS, system fonts only, no motion. No network requests after the HTML. */
 
 :root {
-  --bg: #fdfdfc;
-  --fg: #1a1a19;
-  --muted: #6b6b66;
-  --rule: #e3e3df;
-  --accent: #8a4b2a;
-  --measure: 40rem;
+  --bg: #ffffff;
+  --fg: #16181d;
+  --muted: #5f6570;
+  --faint: #8b9099;
+  --rule: #e6e8ec;
+  --link: #1f5fd6;
+  --measure: 44rem;
+  --gutter: clamp(1.1rem, 5vw, 1.5rem);
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #121211;
-    --fg: #e6e5e1;
-    --muted: #96958e;
-    --rule: #2b2b29;
-    --accent: #d99a6c;
+    --bg: #111214;
+    --fg: #e4e6ea;
+    --muted: #a0a5ae;
+    --faint: #737883;
+    --rule: #26282d;
+    --link: #7fa8ff;
   }
 }
 
@@ -27,7 +31,6 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  /* Nothing may push the page sideways. */
   overflow-x: hidden;
 }
 
@@ -39,130 +42,363 @@ body {
     "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* Long words, URLs and identifiers wrap instead of overflowing. */
   overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 .wrap {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: clamp(2.25rem, 8vw, 4.5rem) clamp(1.15rem, 5vw, 1.5rem)
-    clamp(3.5rem, 10vw, 6rem);
+  padding: clamp(2rem, 7vw, 4.5rem) var(--gutter) clamp(3rem, 8vw, 5rem);
 }
 
 a {
-  color: inherit;
+  color: var(--link);
   text-decoration: none;
-  border-bottom: 1px solid var(--rule);
-  transition: border-color 0.12s ease, color 0.12s ease;
 }
 
 a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
 }
 
 p {
   margin: 0 0 1rem;
 }
 
-ul {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Header */
+strong {
+  font-weight: 600;
+}
 
-/* The photo floats right so the name and the first tagline wrap around it.
-   The second tagline clears, which keeps the photo above the "away from a
-   keyboard" line at every width. */
+/* ---- Intro (overview) ---- */
+
+.intro {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
 .avatar {
-  float: right;
-  width: clamp(76px, 22vw, 116px);
-  height: clamp(76px, 22vw, 116px);
-  margin: 0.2rem 0 0.6rem 1.1rem;
-  border-radius: 6px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
   object-fit: cover;
-  border: 1px solid var(--rule);
-}
-
-.tagline.clear {
-  clear: right;
-}
-
-/* The wrapping line runs the full measure; the 34rem readability cap would
-   otherwise end the line before it reaches the photo. */
-header .tagline:not(.clear) {
-  max-width: none;
+  border-radius: 4px;
 }
 
 .name {
-  margin: 0 0 0.35rem;
-  font-size: clamp(1.4rem, 1.15rem + 1.4vw, 1.6rem);
+  margin: 0 0 0.6rem;
+  font-size: 1.6rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 
 .tagline {
-  margin: 0 0 1.1rem;
+  margin: 0 0 0.75rem;
   color: var(--muted);
-  max-width: 34rem;
+}
+
+.intro .tagline:first-of-type {
+  color: var(--fg);
 }
 
 .links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.1rem;
-  font-size: 0.9rem;
+  margin: 1rem 0 0;
 }
 
-.links a {
-  border-bottom-color: transparent;
-  color: var(--muted);
+.sep {
+  margin: 0 0.35rem;
+  color: var(--rule);
 }
 
-.links a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
-
-.entry-links {
-  margin-top: 0.45rem;
-}
-
-/* Sections */
+/* ---- Sections ---- */
 
 section {
-  margin-top: 3rem;
+  margin-top: 3.25rem;
 }
 
 h2 {
   margin: 0 0 1.25rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.72rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}
+
+h2 a {
+  color: inherit;
+}
+
+/* ---- Selected work ---- */
+
+.work {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 2.25rem;
+}
+
+.work-item {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+.work-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.work-meta {
+  margin: 0.15rem 0 0.5rem;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.work-summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.9rem;
+  margin: 0.55rem 0 0;
+  font-size: 0.88rem;
+}
+
+/* Titles that open a detail page: link colour plus an arrow, so they read
+   as clickable rather than as headings. */
+.work-title a::after,
+.row-title::after,
+.pub-title::after {
+  content: "\2009\2192";
+  display: inline-block;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* ---- Rows: experience, education ---- */
+
+.row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 1.25rem;
+  padding: 0.7rem 0;
+}
+
+.row + .row {
+  border-top: 1px solid var(--rule);
+}
+
+.row-when {
+  color: var(--faint);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.08rem;
+}
+
+.row-title {
+  font-weight: 600;
+}
+
+.row-sub {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.row-summary {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* ---- Publications ---- */
+
+.pubs li {
+  padding: 0.7rem 0;
+}
+
+.pubs li + li {
+  border-top: 1px solid var(--rule);
+}
+
+.pub-title {
+  display: block;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.pub-authors,
+.pub-venue {
+  display: block;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
-/* Entries */
-
-.entry {
-  margin-bottom: 1.75rem;
+.pub-authors strong {
+  color: var(--fg);
 }
 
-.entry:last-child {
-  margin-bottom: 0;
+.pub-venue {
+  color: var(--faint);
 }
 
-.entry-head {
+.tag {
+  margin-left: 0.5rem;
+  font-size: 0.86rem;
+}
+
+/* ---- Footer ---- */
+
+footer {
+  margin-top: 4rem;
+  color: var(--faint);
+  font-size: 0.84rem;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* ---- Top bar (inner pages) ---- */
+
+.sitenav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1.5rem;
+  margin-bottom: clamp(2.25rem, 7vw, 3.5rem);
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.92rem;
+}
+
+.sitenav-name {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.sitenav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+}
+
+.sitenav-links a {
+  color: var(--muted);
+}
+
+.sitenav-links a:hover,
+.sitenav-links a[aria-current='page'] {
+  color: var(--fg);
+}
+
+.sitenav-links a[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
+}
+
+/* ---- Section index and detail pages ---- */
+
+.blurb {
+  margin: 0;
+  color: var(--muted);
+}
+
+section.bare {
+  margin-top: 2rem;
+}
+
+
+
+
+
+
+.entry-sub {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+
+.bullets {
+  margin-top: 0.5rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.bullets li {
+  margin-bottom: 0.35rem;
+  font-size: 0.94rem;
+}
+
+.bullets li::marker {
+  color: var(--faint);
+}
+
+
+
+/* Header links on detail pages */
+.name + .entry-sub,
+.name ~ .tagline {
+  margin-bottom: 0.25rem;
+}
+
+.name ~ .tagline {
+  color: var(--faint);
+  font-size: 0.9rem;
+}
+
+.name ~ .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.9rem;
+}
+
+/* ---- Roles nested under one employer ---- */
+
+.roles {
+  margin-top: 0.75rem;
+}
+
+.roles-top {
+  margin-top: 2rem;
+}
+
+.role {
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--rule);
+}
+
+.role + .role {
+  margin-top: 1.1rem;
+}
+
+.role-head {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -170,148 +406,39 @@ h2 {
   gap: 0 1rem;
 }
 
-.entry-title {
+.role-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
-.entry-sub {
+.role-when {
+  color: var(--faint);
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.role-where {
   margin: 0;
   color: var(--muted);
-  font-size: 0.94rem;
-}
-
-.entry-when {
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.bullets {
-  margin-top: 0.5rem;
-}
-
-.bullets li {
-  position: relative;
-  padding-left: 1rem;
-  margin-bottom: 0.35rem;
-  font-size: 0.94rem;
-}
-
-.bullets li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.66em;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--rule);
-}
-
-.note {
-  margin: 0.35rem 0 0;
-  color: var(--muted);
-  font-size: 0.94rem;
-}
-
-/* Footer */
-
-footer {
-  margin-top: 3.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--rule);
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-
-/* ---- Linked sections and entries ---- */
-
-h2 a {
-  border-bottom: none;
-  color: var(--muted);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-}
-
-h2 a:hover {
-  color: var(--accent);
-}
-
-.arr {
-  opacity: 0;
-  transform: translateX(-3px);
-  transition: opacity 0.14s ease, transform 0.14s ease;
-}
-
-h2 a:hover .arr {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.entry-title a {
-  border-bottom: none;
-}
-
-.entry-title a:hover {
-  border-bottom: 1px solid var(--accent);
-}
-
-/* Whole entry hints that it is clickable */
-.entry:hover .entry-title a {
-  color: var(--accent);
-}
-
-section.bare {
-  margin-top: 2.5rem;
-}
-
-/* ---- Breadcrumb ---- */
-
-.crumb {
-  margin-bottom: 2rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.crumb a {
-  border-bottom: none;
-  color: var(--muted);
-}
-
-.crumb a:hover {
-  color: var(--accent);
-}
-
-.crumb span {
-  margin: 0 0.4rem;
-  opacity: 0.5;
+  font-size: 0.86rem;
 }
 
 /* ---- Long-form writeups ---- */
 
 .prose {
   margin-top: 2.5rem;
+  line-height: 1.7;
 }
 
 .prose h2 {
   margin: 2.25rem 0 0.75rem;
-  padding: 0;
-  border: none;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--fg);
+  font-size: 1.1rem;
 }
 
 .prose h3 {
   margin: 1.75rem 0 0.5rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -322,7 +449,7 @@ section.bare {
 .prose ul,
 .prose ol {
   margin: 0 0 1rem;
-  padding-left: 1.1rem;
+  padding-left: 1.2rem;
   list-style: disc;
 }
 
@@ -335,7 +462,7 @@ section.bare {
 }
 
 .prose li::marker {
-  color: var(--muted);
+  color: var(--faint);
 }
 
 .prose blockquote {
@@ -346,10 +473,10 @@ section.bare {
 }
 
 .prose code {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: 0.88em;
+  font-family: var(--mono);
+  font-size: 0.87em;
   background: var(--rule);
-  padding: 0.12em 0.35em;
+  padding: 0.1em 0.35em;
   border-radius: 3px;
 }
 
@@ -373,7 +500,9 @@ section.bare {
 }
 
 .prose table {
-  width: 100%;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.9rem;
   margin-bottom: 1rem;
@@ -382,8 +511,13 @@ section.bare {
 .prose th,
 .prose td {
   text-align: left;
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.7rem;
   border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.prose th {
+  font-weight: 600;
 }
 
 .prose hr {
@@ -392,127 +526,58 @@ section.bare {
   margin: 2rem 0;
 }
 
+/* ---- Small screens ---- */
 
-/* ============================================================
-   Responsive
-   Base styles above are the small-screen case where they can be.
-   These blocks handle what genuinely needs to differ.
-   ============================================================ */
-
-/* Tables can't reflow, so give them their own scroll box. */
-.prose table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.prose th,
-.prose td {
-  white-space: nowrap;
-}
-
-/* Phones and small tablets */
 @media (max-width: 40rem) {
   body {
     font-size: 15.5px;
-    line-height: 1.62;
   }
 
-  /* Meta drops onto its own line under the title instead of fighting it. */
-  .entry-head {
-    flex-direction: column;
-    align-items: flex-start;
+  .intro {
+    grid-template-columns: 5.5rem 1fr;
+    gap: 1.1rem;
+  }
+
+  .work {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
     gap: 0.1rem;
   }
 
-  .entry-when {
-    white-space: normal;
+  .row-when {
     order: 2;
+    font-size: 0.82rem;
   }
 
-  .entry-title {
-    order: 1;
-  }
-
-  .entry {
-    margin-bottom: 2rem;
-  }
-
-  /* Bigger tap targets on the link rows. */
-  .links {
-    gap: 0.15rem 1rem;
-  }
-
-  .links a {
-    padding: 0.3rem 0;
-  }
-
-  .crumb {
-    margin-bottom: 1.5rem;
-  }
-
-  .crumb a {
-    padding: 0.25rem 0;
-    display: inline-block;
-  }
-
-  section {
-    margin-top: 2.5rem;
-  }
-
-  .prose {
-    margin-top: 2rem;
-  }
-
-  .prose pre {
-    /* Bleed to the edges so code has room to breathe. */
-    margin-left: calc(-1 * clamp(1.15rem, 5vw, 1.5rem));
-    margin-right: calc(-1 * clamp(1.15rem, 5vw, 1.5rem));
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
+  .sitenav {
+    flex-direction: column;
   }
 }
 
-/* Very narrow phones */
-@media (max-width: 22rem) {
-  body {
-    font-size: 15px;
+@media (max-width: 26rem) {
+  .intro {
+    grid-template-columns: 1fr;
   }
 
-  .links {
-    gap: 0.15rem 0.85rem;
-    font-size: 0.86rem;
+  .avatar {
+    width: 5.5rem;
   }
 }
 
-/* Coarse pointers: the hover-reveal arrow never gets a hover, so pin it on. */
-@media (hover: none) {
-  .arr {
-    opacity: 0.55;
-    transform: translateX(0);
-  }
-}
+/* ---- Print: the overview doubles as a resume ---- */
 
-/* Respect reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
-  }
-}
-
-/* Print: the overview doubles as a resume. */
 @media print {
   :root {
     --bg: #fff;
     --fg: #000;
-    --muted: #444;
+    --muted: #333;
+    --faint: #555;
     --rule: #ccc;
-    --accent: #000;
+    --link: #000;
   }
 
   .wrap {
@@ -520,171 +585,13 @@ section.bare {
     padding: 0;
   }
 
-  .crumb,
-  .arr {
-    display: none;
-  }
-
-  a {
-    border-bottom: none;
-  }
-
-  .entry,
-  section {
-    break-inside: avoid;
-  }
-}
-
-/* ---- Roles nested under one employer ---- */
-
-.roles {
-  margin-top: 0.9rem;
-}
-
-.roles-top {
-  margin-top: 2.5rem;
-}
-
-.role {
-  margin-bottom: 1.4rem;
-  padding-left: 0.9rem;
-  border-left: 1px solid var(--rule);
-}
-
-.role:last-child {
-  margin-bottom: 0;
-}
-
-.role-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0 1rem;
-}
-
-.role-title {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-  padding: 0;
-  border: none;
-  color: var(--fg);
-}
-
-.role-when {
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.role-where {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.role .bullets {
-  margin-top: 0.4rem;
-}
-
-@media (max-width: 40rem) {
-  .role-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.05rem;
-  }
-
-  .role-when {
-    white-space: normal;
-    order: 2;
-  }
-
-  .role-title {
-    order: 1;
-  }
-
-  .role {
-    padding-left: 0.75rem;
-  }
-}
-
-/* ---- Sticky section nav ---- */
-
-.sitenav {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--bg);
-  border-bottom: 1px solid var(--rule);
-}
-
-.sitenav-inner {
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 0.5rem clamp(1.15rem, 5vw, 1.5rem);
-  display: flex;
-  align-items: center;
-  gap: 0 1.05rem;
-  /* Too many sections for a narrow screen: scroll sideways rather than wrap. */
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.sitenav-inner::-webkit-scrollbar {
-  display: none;
-}
-
-.sitenav a {
-  color: var(--muted);
-  border-bottom: 1px solid transparent;
-  padding: 0.25rem 0;
-  white-space: nowrap;
-}
-
-.sitenav a:hover,
-.sitenav a[aria-current='page'] {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
-
-.sitenav-home {
-  letter-spacing: 0;
-  font-size: 0.9rem;
-  line-height: 1;
-}
-
-/* The nav covers the top of the viewport, so anchored sections stop below it. */
-html {
-  scroll-behavior: smooth;
-}
-
-section[id],
-:target {
-  scroll-margin-top: 3.25rem;
-}
-
-/* The overview's first section sits under a tall header; keep its own spacing. */
-.wrap {
-  padding-top: clamp(1.75rem, 6vw, 3rem);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-@media print {
   .sitenav {
     display: none;
+  }
+
+  .row,
+  .work-item,
+  .pubs li {
+    break-inside: avoid;
   }
 }

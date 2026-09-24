@@ -1,0 +1,103 @@
+---
+// One list of entries, laid out the same way on the overview and on the
+// section index pages. The layout follows the section:
+//   projects     -> work grid (title, stack, summary, links)
+//   publications -> author list with the site owner's name in bold
+//   anything else -> dated rows (dates left, title and roles right)
+// `kind` overrides that, which is how "Selected work" gets the grid.
+import type { CollectionEntry } from 'astro:content';
+import type { SectionSlug } from '../data/sections';
+
+type Item = CollectionEntry<SectionSlug> & { href: string };
+
+interface Props {
+  slug?: SectionSlug;
+  kind?: 'work' | 'pubs' | 'rows';
+  entries: Item[];
+}
+
+const { slug, entries } = Astro.props;
+const kind =
+  Astro.props.kind ?? (slug === 'projects' ? 'work' : slug === 'publications' ? 'pubs' : 'rows');
+
+const isMe = (author: string) => /\bMohite\b/.test(author);
+---
+
+{
+  kind === 'work' && (
+    <div class="work">
+      {entries.map((e) => (
+        <article class="work-item">
+          <h3 class="work-title">
+            <a href={e.href}>{e.data.title}</a>
+          </h3>
+          {e.data.meta && <p class="work-meta">{e.data.meta}</p>}
+          {e.data.summary && <p class="work-summary">{e.data.summary}</p>}
+          {e.data.external.length > 0 && (
+            <p class="inline-links">
+              {e.data.external.map((l) => (
+                <a href={l.href} rel="noopener">{l.label}</a>
+              ))}
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  )
+}
+
+{
+  kind === 'pubs' && (
+    <ol class="pubs">
+      {entries.map((e) => (
+        <li>
+          <a class="pub-title" href={e.href}>{e.data.title}</a>
+          {e.data.subtitle && (
+            <span class="pub-authors">
+              {e.data.subtitle.split(', ').map((a, i) => (
+                <>
+                  {i > 0 && ', '}
+                  {isMe(a) ? <strong>{a}</strong> : a}
+                </>
+              ))}
+            </span>
+          )}
+          <span class="pub-venue">
+            {e.data.meta}
+            {e.data.external.map((l) => (
+              <>
+                {' '}
+                <a class="tag" href={l.href} rel="noopener">{l.label}</a>
+              </>
+            ))}
+          </span>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+{
+  kind === 'rows' && (
+    <ul class="rows">
+      {entries.map((e) => (
+        <li class="row">
+          <span class="row-when">{e.data.meta}</span>
+          <div>
+            <a class="row-title" href={e.href}>{e.data.title}</a>
+            {e.data.roles.length > 0 ? (
+              <span class="row-sub">
+                {[...new Set(e.data.roles.map((r) => r.title))].join(', ')}
+              </span>
+            ) : (
+              e.data.subtitle && <span class="row-sub">{e.data.subtitle}</span>
+            )}
+            {slug === 'experience' && e.data.summary && (
+              <p class="row-summary">{e.data.summary}</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}

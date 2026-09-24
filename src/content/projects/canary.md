@@ -1,6 +1,7 @@
 ---
 title: Canary
 meta: Python, scikit-learn
+featured: true
 order: 1
 summary: >-
   Predicts whether a coding agent's run is going to fail from the first few steps of execution, so

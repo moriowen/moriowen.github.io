@@ -119,7 +119,14 @@ strong {
 }
 
 .links {
+  display: flex;
+  flex-wrap: wrap;
   margin: 1rem 0 0;
+}
+
+/* Keep each link with its trailing slash so a wrap never starts a line with "/". */
+.link-item {
+  white-space: nowrap;
 }
 
 .sep {
@@ -373,7 +380,7 @@ section.bare {
   font-size: 0.9rem;
 }
 
-.name ~ .links {
+.name ~ nav.links {
   display: flex;
   flex-wrap: wrap;
   gap: 0 0.9rem;

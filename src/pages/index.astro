@@ -45,10 +45,10 @@ const year = new Date().getFullYear();
       {tagline.map((t) => <p class="tagline">{t}</p>)}
       <p class="links">
         {links.map((l, i) => (
-          <>
-            {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+          <span class="link-item">
             <a href={l.href} rel="me noopener">{l.label}</a>
-          </>
+            {i < links.length - 1 && <span class="sep" aria-hidden="true">/</span>}
+          </span>
         ))}
       </p>
     </div>

@@ -20,12 +20,24 @@ roles:
 
 ## The domain
 
-TODO: describe trade settlement in a paragraph a non-specialist can follow. What a settlement
-instruction is, why volume matters, and what breaks when it goes wrong.
+A trade is agreed in seconds, but the securities and cash change hands later, at settlement. In
+between, the firm works out what it owes and is owed, tells the market, and checks that its version
+matches the counterparty's. The message that tells the market is a settlement instruction, often a
+SWIFT message, and each market sets a deadline for receiving it. An instruction that is late or
+wrong means the trade does not settle on time.
+
+The platform I worked on is a set of services along that path. One owns each trade's state until it
+settles and groups trades into instructions. One sends instructions out to the market, one handles
+the messages that come back in, and a datastore pulls all of it into one searchable view.
+
+TODO: why volume matters, and what a failed settlement costs.
 
 ## Launching a new business line
 
 Seven microservices on a multi-tenant platform, scaled to 5M+ trades per day.
+
+The platform is shared by several business lines, so every change for the new flow also had to
+leave the existing flows working.
 
 TODO: what "production readiness" meant concretely, what you owned versus influenced, and the
 hardest design call you had to make.
@@ -47,5 +59,10 @@ teams to trust it.
 
 ## The aggregation engine
 
-TODO: why 70% fewer instructions matters downstream. What the configurable dimensions are, and why
-the correct grouping was not obvious.
+The engine lives in the service that owns trade state. Different business flows group trades
+differently, so the grouping is configuration rather than code: each flow names the combination of
+business dimensions its trades are netted on, and the engine emits one consolidated instruction per
+group for downstream processing.
+
+TODO: why 70% fewer instructions matters downstream, what the dimensions are, and why the correct
+grouping was not obvious.

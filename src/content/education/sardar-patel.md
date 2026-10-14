@@ -18,4 +18,7 @@ Publications, moving from license plate recognition to video understanding.
 
 ## Beyond coursework
 
-TODO: The fest, Smart India Hackathon. The things that actually taught you to ship.
+I was Tech Head for Oculus, the college fest, and built the systems it ran on (see Experience). I
+won Code for Good in 2021 and Smart India Hackathon in 2022.
+
+TODO: what those taught you about shipping.

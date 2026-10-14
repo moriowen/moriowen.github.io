@@ -49,5 +49,14 @@ A single accuracy number would have hidden that, so the site keeps every layer: 
 condition, error breakdowns by type, per-query performance, and the raw output for any individual
 trial.
 
-TODO: name the seven models and the exact query sets. Anyone reading the numbers should be able to
-rerun them.
+## Reproducing it
+
+The seven models, by Ollama tag: `qwen2.5:1.5b`, `gemma3:4b`, `mistral:7b`, `qwen2.5:7b`,
+`llama3.1:8b`, `gemma3:12b`, and `qwen3:32b`.
+
+Each task has ten queries, generated from a committed seed (6220) and checked into the repo along
+with their gold answers. Reversal is five random mixed-case strings of length 5 and five of length
+8. Division is five problems rounded to 5 decimal places and five rounded to 8, a mix of
+terminating and repeating expansions, with the dividend sometimes larger than the divisor and
+sometimes smaller. Few-shot prompts draw three examples from a separate pool, so no query appears
+as its own example.

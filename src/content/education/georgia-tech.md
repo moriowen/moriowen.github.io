@@ -13,7 +13,12 @@ to work.
 
 ## Coursework
 
-TODO: fill in as you register. Worth keeping current, it is the page people check.
+Fall 2026:
+
+- CS 7641, Machine Learning
+- CS 6220, Big Data Systems
+- CSE 6242, Data and Visual Analytics
+- CS 6035, Introduction to Information Security
 
 ## Research interests
 

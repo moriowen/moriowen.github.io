@@ -21,6 +21,9 @@ roles:
 
 ## Breaking up the monolith
 
+The service handles inbound messages from the market. I pulled it out of the monolith that owns
+trade state and rewrote it in a reactive, functional style on Spring WebFlux.
+
 TODO: what made this service the right one to extract first. The seam you cut along, how you
 migrated traffic without a big-bang cutover, and what you would do differently. Kafka and Spring
 WebFlux were the stack, so the backpressure story belongs here too.
@@ -35,10 +38,16 @@ idempotent replay was the right answer, and what a bad day looked like.
 
 750k records, sub-150ms complex search, four legacy systems retired.
 
+It is a read model in Elasticsearch. It pulls from several source systems and rehydrates
+continuously to stay current with them.
+
 TODO: why the source systems could not answer these queries themselves, how you kept the
 materialized view consistent with its sources as it rehydrated, and what made the nesting the hard
 part.
 
 ## Kubernetes migration
+
+The applications moved off legacy virtual machines onto the firm's internal Kubernetes platform,
+and I worked on the first rollout to it.
 
 TODO: what made 15 migrations tractable, and where the $450k came from.

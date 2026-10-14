@@ -21,7 +21,7 @@ export const links = [
 export const tagline = [
   `MS CS at Georgia Tech 🐝, specializing in Machine Learning, after close to four years on
    distributed systems at JP Morgan Chase. Lately tinkering with ML systems and local LLMs.`,
-  `Away from a keyboard: boxing, playing pool, lifting, running, dancing, cooking, and writing.
+  `Away from a keyboard: boxing, playing pool, lifting, running, and writing.
    Collecting places to go and poems worth rereading.`,
 ];
 

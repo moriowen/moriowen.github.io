@@ -2,7 +2,7 @@
 title: LLM Prompting Lab
 meta: Ollama, Python
 featured: true
-order: 3
+order: 5
 summary: >-
   Benchmarks seven open-weight models on two tasks with checkable answers, character reversal and
   decimal division, across eleven temperatures and four prompting strategies. 14,935 graded trials,

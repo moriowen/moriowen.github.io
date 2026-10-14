@@ -2,7 +2,7 @@
 title: Canary
 meta: Python, scikit-learn
 featured: true
-order: 1
+order: 3
 summary: >-
   Predicts whether a coding agent's run is going to fail from the first few steps of execution, so
   the doomed runs can be stopped early. Cuts agent compute by 25% for a one-point drop in solve

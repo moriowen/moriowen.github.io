@@ -2,7 +2,7 @@
 title: Oculus S.P.I.T.
 subtitle: Sardar Patel Institute of Technology, Mumbai
 meta: Oct 2021 - Mar 2022
-order: 2
+order: 5
 summary: >-
   Tech Head for the college fest. Built and shipped the three systems that ran it: the public
   portal, a 3D campus model, and an admin dashboard for 23 non-technical event teams.

@@ -2,7 +2,7 @@
 title: Smowcode
 subtitle: Mumbai, India
 meta: May 2021 - Jul 2021
-order: 4
+order: 7
 summary: >-
   First internship. Worked on the Smowcode IDE, an Electron desktop app, shipping the in-app
   updater and fixing the node editor.

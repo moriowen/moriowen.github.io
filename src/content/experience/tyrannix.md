@@ -2,7 +2,7 @@
 title: Tyrannix
 subtitle: Mumbai, India
 meta: Jul 2021 - Oct 2021
-order: 3
+order: 6
 summary: >-
   Full stack intern on game backends and client work. Express and MySQL with Redis caching, an
   admin panel for a sports marketing agency, and the UI for a real-time multiplayer game.

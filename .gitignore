@@ -4,3 +4,6 @@ node_modules/
 .DS_Store
 npm-debug.log*
 node_modules
+
+# Personal prep material, never pushed (repo is public)
+private/

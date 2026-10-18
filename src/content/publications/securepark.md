@@ -4,7 +4,7 @@ subtitle: Deep U. Nayak, Atharva P. Mohite, Pranav P. Nair, Pramod J. Bide
 meta: IEEE, 2021
 order: 4
 summary: >-
-  A YOLOv5s license-plate detector trained on 200 labeled images, wired to OCR, authorization
+  A YOLOv5s license-plate detector wired to OCR, authorization
   logic, alerts, and a monitoring dashboard. My first paper, and the one where the interesting
   problem turned out to be integration rather than the model.
 external:

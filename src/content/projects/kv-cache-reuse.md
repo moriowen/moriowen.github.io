@@ -1,19 +1,21 @@
 ---
-title: Non-prefix KV Cache Reuse for Agent Memory
+title: Splice
 meta: PyTorch, Transformers, vLLM
 featured: true
 order: 1
 summary: >-
   Caches each agent memory's KV once and reuses it wherever the memory lands in the prompt, which
-  prefix caching cannot do. Served through unmodified vLLM it cut time to first token by up to
-  2.28×, with four published KV correction methods compared on 1,986 LoCoMo questions.
+  prefix caching cannot do. Served through unmodified vLLM it cut time to first token 1.7× and
+  raised throughput 52% at 90% memory reuse, and up to 2.28× with every memory precached. Uncorrected
+  reuse halves answer quality; three published correction methods are compared on 1,986 LoCoMo
+  questions.
 external:
   - label: Code
-    href: https://github.com/moriowen/kvreuse
+    href: https://github.com/moriowen/splice
 bullets:
   - Built non-prefix KV reuse for a memory-augmented agent on Mistral-7B, with exact RoPE re-rotation of cached keys and a hand-written per-layer forward pass that matches Hugging Face to 4.6e-5 in max logit error.
-  - Served reuse through vLLM's public KV connector API with no engine changes, cutting median time to first token from 60.6 ms to 26.6 ms (2.28×) at ten retrieved memories, where prefix caching managed 1.10×.
-  - Compared four correction methods (re-positioning, EPIC, CacheBlend, AgentKVShift, the last reimplemented from its paper) on all 1,986 LoCoMo questions under one recompute-budget formula, mapping how much answer quality each recovers per unit of recompute.
+  - Served reuse through vLLM's public KV connector API with no engine changes, cutting time to first token 1.73× and raising throughput 52% when 90% of requests reuse memories, and up to 2.28× at ten retrieved memories with every memory precached, against 1.10× for prefix caching.
+  - Showed that uncorrected reuse halves answer quality, F1 0.319 to 0.152, then compared three published correction methods, EPIC, CacheBlend and a reimplementation of AgentKVShift, on all 1,986 LoCoMo questions under one recompute budget. The best comes within 0.02 F1 of full prefill only at 71% recompute.
 ---
 
 <div class="glance">
@@ -26,7 +28,7 @@ bullets:
 <dt>Setup</dt>
 <dd>Mistral-7B-Instruct-v0.3 on an H100. LoCoMo long-conversation benchmark (10 conversations, 17K to 31K tokens, 1,986 questions). BM25 top-10 retrieval. vLLM 0.27.1.</dd>
 <dt>Headline</dt>
-<dd>Served through vLLM, time to first token fell 2.28× at ten retrieved memories, and throughput rose 52% when 90% of requests reuse memories. Uncorrected reuse also halves answer quality, which is what the correction methods are for.</dd>
+<dd>Served through vLLM, time to first token fell 1.73× and throughput rose 52% when 90% of requests reuse memories. With every memory precached, the best case, time to first token fell 2.28× at ten retrieved memories. Uncorrected reuse also halves answer quality, which is what the correction methods are for.</dd>
 <dt>Status</dt>
 <dd>Fall 2026, in progress. The correctness gate, the quality sweep, the prefill-time sweep, and both serving benchmarks have run. The end-to-end check that vLLM's output matches the reference has not.</dd>
 </dl>
@@ -160,7 +162,10 @@ The vLLM connector plugs into vLLM's public KV connector API, so the engine itse
 That limits it to re-positioning: the correction methods recompute tokens inside the prompt at
 every layer, which would need scheduler changes.
 
-**Latency as more memories are retrieved.** Median TTFT, three repetitions of 199 requests each:
+**Latency as more memories are retrieved.** Median TTFT, three repetitions of 199 requests each,
+one request at a time. This is the best case: every chunk of the conversation is prefilled and
+stored before the run, so every retrieved memory hits, and the cost of filling the store is not in
+these numbers.
 
 | Retrieved chunks | Full prefill | Prefix cache | Connector | Connector speedup |
 |---|---|---|---|---|
@@ -171,7 +176,7 @@ every layer, which would need scheduler changes.
 | 10 | 60.6 ms | 55.2 ms | 26.6 ms | **2.28×** |
 
 At ten chunks the connector serves 97% of prompt tokens from cache against 18% for the prefix
-cache. The advantage grows with every chunk added, because the prefix cache can only ever match the
+cache; the uncached rest is the question and the prompt text around the chunks. The advantage grows with every chunk added, because the prefix cache can only ever match the
 system prompt.
 
 **When does reuse beat prefix caching?** A synthetic workload where memory popularity follows a

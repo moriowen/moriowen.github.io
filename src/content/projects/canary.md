@@ -136,3 +136,25 @@ The behaviour behind those numbers is consistent. Misdiagnosed runs average 39 t
 and repeat in 15%, which is what a successful run looks like. The monitor catches agents that
 flail and misses agents that are confidently wrong. Catching those needs a different signal, such
 as checking the patch itself.
+
+## How failing runs behave, without labels
+
+The LLM categories use hindsight. To see how failing runs behave without any labels or text, I
+described each of the 56,775 quiet failures only by its end-of-run behaviour (share of each action,
+error rate, repeated commands, hedging, edit sizes, test runs, whether it reran its reproduction
+after editing), reduced that with PCA and fit a Gaussian mixture, choosing four archetypes at the
+BIC knee.
+
+<img src="/projects/figures/canary-archetypes.png" alt="Left: bar chart of four behavioural archetypes by share of quiet failures with the part the monitor stops early highlighted: tidy finishers 42% of failures, 14% stopped; loopers 28%, 74% stopped; quick patchers 19%, 10% stopped; environment fighters 11%, 63% stopped. Right: heatmap of mean turns, error rate, repeated commands, hedging and test runs per archetype." width="1760" height="576" loading="lazy" />
+
+Loopers (28% of quiet failures) repeat commands and say "still" and "again", and the monitor stops
+74% of them. Environment fighters (11%) burn turns on installs and malformed commands, and 63% get
+stopped. Tidy finishers (42%) reproduce, edit, clean up and submit in about 18 turns, and quick
+patchers (19%) submit in about 10 without ever running a test. The monitor stops 14% and 10% of
+those. Behaviour explains the blind spot more sharply than the LLM categories do.
+
+Behaviour and diagnosis are close to independent (NMI 0.03 between archetypes and categories), so
+how a run fails says little about why. The archetypes are also regions of a continuum rather than
+separate types: they are only moderately stable across seeds (ARI 0.32), and HDBSCAN leaves 83% of
+runs as noise.
+

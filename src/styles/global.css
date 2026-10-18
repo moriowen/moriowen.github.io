@@ -193,11 +193,44 @@ h2 a {
   font-size: 0.88rem;
 }
 
+/* Cover image above a work entry; the title below it is the real link. */
+.work-cover {
+  display: block;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+
+.work-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  transition: transform 0.2s ease;
+}
+
+.work-cover:hover img {
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-cover img {
+    transition: none;
+  }
+}
+
+.more {
+  margin: 1.4rem 0 0;
+  font-size: 0.92rem;
+}
+
 /* Titles that open a detail page: link colour plus an arrow, so they read
    as clickable rather than as headings. */
 .work-title a::after,
 .row-title::after,
-.pub-title::after {
+.pub-title::after,
+.more a::after {
   content: "\2009\2192";
   display: inline-block;
   font-weight: 400;

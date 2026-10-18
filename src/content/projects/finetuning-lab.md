@@ -1,7 +1,7 @@
 ---
 title: Finetuning Lab
 meta: PyTorch, PEFT, TRL
-featured: true
+featured: false
 order: 2
 summary: >-
   LoRA at nine ranks from 1 to 256, plus full fine-tuning, on Qwen2.5-1.5B with TruthfulQA, three

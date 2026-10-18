@@ -28,6 +28,11 @@ const isMe = (author: string) => /\bMohite\b/.test(author);
     <div class="work">
       {entries.map((e) => (
         <article class="work-item">
+          {e.data.cover && (
+            <a class="work-cover" href={e.href} tabindex="-1" aria-hidden="true">
+              <img src={e.data.cover.src} alt={e.data.cover.alt} width="1600" height="900" loading="lazy" decoding="async" />
+            </a>
+          )}
           <h3 class="work-title">
             <a href={e.href}>{e.data.title}</a>
           </h3>

@@ -2,6 +2,9 @@
 title: Canary
 meta: Python, PyTorch, LightGBM, vLLM
 featured: true
+cover:
+  src: /projects/covers/canary.png
+  alt: "Canary cover: a run's chance of a fix per turn, one run continuing to a fix and one stopped where it crosses the threshold"
 order: 3
 summary: >-
   A monitor that watches an AI coding agent while it works and stops runs that are heading for

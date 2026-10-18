@@ -2,6 +2,9 @@
 title: Splice
 meta: PyTorch, Transformers, vLLM
 featured: true
+cover:
+  src: /projects/covers/splice.png
+  alt: "Splice cover: memory chunks A, B and C cached alone, then spliced into a new prompt in a different order"
 order: 1
 summary: >-
   Caches each agent memory's KV once and reuses it wherever the memory lands in the prompt, which

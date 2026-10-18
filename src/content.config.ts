@@ -8,6 +8,7 @@ import { glob } from 'astro/loaders';
 // - summary  : one paragraph shown on the overview and section index
 // - bullets  : optional resume-style points shown on the overview
 // - external : optional off-site link (paper PDF, repo, live demo)
+// - cover    : optional 16:9 image, shown above the entry in the work grid
 // - featured : also shown under "Selected work" at the top of the overview
 // - order    : lower sorts first
 const entry = z.object({
@@ -42,6 +43,12 @@ const entry = z.object({
       })
     )
     .default([]),
+  cover: z
+    .object({
+      src: z.string().refine((h) => h.startsWith('/'), 'cover src must start with /'),
+      alt: z.string(),
+    })
+    .optional(),
   featured: z.boolean().default(false),
   order: z.number().default(99),
   draft: z.boolean().default(false),

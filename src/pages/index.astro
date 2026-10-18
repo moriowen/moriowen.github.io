@@ -18,8 +18,10 @@ const live = await Promise.all(
 const featured = live.flatMap((s) => s.entries.filter((e) => e.data.featured));
 
 // Below it, a featured entry is not repeated, except in publications, which
-// stay a complete list. A section left empty is skipped.
+// stay a complete list. Projects are not listed again: "Selected work" links
+// to the full projects page instead. A section left empty is skipped.
 const rest = live
+  .filter((s) => s.slug !== 'projects')
   .map((s) => ({
     ...s,
     entries: s.slug === 'publications' ? s.entries : s.entries.filter((e) => !e.data.featured),
@@ -59,6 +61,7 @@ const year = new Date().getFullYear();
       <section id="work">
         <h2>Selected work</h2>
         <EntryList kind="work" entries={featured} />
+        <p class="more"><a href="/projects/">More projects</a></p>
       </section>
     )
   }

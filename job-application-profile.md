@@ -14,7 +14,7 @@ listed here, see "Rules for the agent" at the bottom. Do not invent an answer.
 2. Fields marked `ASK HUMAN` must be confirmed before submitting the application.
 3. Prefer the exact wording in this file over paraphrasing. Bullets can be trimmed to fit a
    character limit, but do not rewrite the claims.
-4. Upload `public/resume.pdf` whenever a resume upload is offered, even if the form
+4. Upload `resume/Atharva Mohite Resume.pdf` (run `make` in `resume/` if it is missing) whenever a resume upload is offered, even if the form
    also parses fields.
 5. Do not check "yes" on any question about prior employment with the company, referrals, or
    non-competes without asking. The EEO questions below are already answered; fill those in

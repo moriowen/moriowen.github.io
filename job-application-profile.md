@@ -1,7 +1,7 @@
 # Job Application Profile — Atharva Mohite
 
 Machine-readable profile for browser agents filling out job applications on my behalf.
-Source of truth: `Atharva Mohite Resume.pdf` in this repo. If a form asks for something not
+Source of truth: `public/resume.pdf` in this repo (built from `resume/resume.tex`). If a form asks for something not
 listed here, see "Rules for the agent" at the bottom. Do not invent an answer.
 
 ---
@@ -14,7 +14,7 @@ listed here, see "Rules for the agent" at the bottom. Do not invent an answer.
 2. Fields marked `ASK HUMAN` must be confirmed before submitting the application.
 3. Prefer the exact wording in this file over paraphrasing. Bullets can be trimmed to fit a
    character limit, but do not rewrite the claims.
-4. Upload `Atharva Mohite Resume.pdf` whenever a resume upload is offered, even if the form
+4. Upload `public/resume.pdf` whenever a resume upload is offered, even if the form
    also parses fields.
 5. Do not check "yes" on any question about prior employment with the company, referrals, or
    non-competes without asking. The EEO questions below are already answered; fill those in
@@ -176,13 +176,20 @@ a specific tool and it is not derivable from the dates above, 4 years in all cas
 
 ## Projects
 
-### Canary — Python, scikit-learn
-- Cut coding-agent compute by 25% with a one-point drop in solve rate by predicting run failure
-  from the first few steps of execution.
-- Built supervised learning models over 80k coding-agent trajectories from Agent SWE Bench to
-  predict failure from the first few steps, reaching 0.80 PR-AUC on a task-controlled evaluation.
-- Combined supervised prediction with unsupervised clustering to identify recurring failure
-  modes across 59k failed runs, explaining why agents fail and when an agent should stop.
+### Splice — PyTorch, Transformers, vLLM
+- Cut time to first token 1.7× and raised throughput 52% at 90% memory reuse, and up to 2.3× with
+  all memories precached, by re-rotating stored KV through vLLM's KV connector API without engine
+  changes.
+- Showed uncorrected reuse halves answer quality and the best of 3 published fixes needs ~70%
+  recompute to recover it, by benchmarking them with Mistral-7B on 1,986 LoCoMo questions.
+- Link: https://moriowen.github.io/projects/kv-cache-reuse/
+
+### Canary — PyTorch, LightGBM, vLLM
+- Cut agent compute 46% at a 2% loss of successful runs, nearly double the best fixed turn limit,
+  by stopping likely failures early.
+- Showed most early failure signal is task difficulty, AUROC 0.70 across all runs vs. 0.54 between
+  attempts at the same issue, by training LightGBM and GRU monitors on 147k SWE-agent and
+  OpenHands trajectories.
 - Link: https://moriowen.github.io/projects/canary/
 
 ---
@@ -259,7 +266,9 @@ Adapt the closing paragraph per role. Show the draft to the human before submitt
 > retry after partial failure converges to the same state instead of compounding the problem.
 
 **"What are you working on now?"**
-> Canary, which predicts whether a coding agent's run will fail from its first few steps, so you
-> can kill doomed runs early. 80k trajectories from Agent SWE Bench, 0.80 PR-AUC, 25% compute
-> saved for a one-point drop in solve rate. I also clustered 59k failed runs to name the
-> recurring failure modes.
+> Two research projects. Canary watches a coding agent while it works and stops runs that are
+> heading for failure; on held-out SWE-agent runs it cuts compute 46% while losing 2% of the runs
+> that would have succeeded, nearly double what the best fixed turn limit saves. Splice reuses an
+> agent's memory KV cache wherever a memory lands in the prompt. Through vLLM it cut time to first
+> token 1.7× at 90% memory reuse, but uncorrected reuse halves answer quality, and fixing that
+> cheaply is the open problem.

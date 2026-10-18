@@ -1,0 +1,139 @@
+% Atharva Mohite — resume
+% Build:  make            (from resume/; writes resume.pdf and copies it to public/resume.pdf)
+%    or:  latexmk -xelatex resume.tex
+\documentclass[10pt,letterpaper]{article}
+
+% ---------- Page and font ----------
+\usepackage[letterpaper,top=0.35in,bottom=0.35in,left=0.5in,right=0.5in]{geometry}
+\usepackage{fontspec}
+% Carlito is metric-compatible with Calibri (the Google Docs original), bundled in fonts/.
+\setmainfont{Carlito}[Path=fonts/, Extension=.ttf, UprightFont=*-Regular,
+  BoldFont=*-Bold, ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic]
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tabularx}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\linespread{1.0}
+\raggedright
+\frenchspacing
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\definecolor{linkblue}{HTML}{1155CC}
+\newcommand{\link}[2]{\href{#1}{\textcolor{linkblue}{\underline{#2}}}}
+
+% ---------- Section headings: bold caps with a rule ----------
+\titleformat{\section}{\bfseries\normalsize}{}{0pt}{}[\vspace{-1pt}\titlerule]
+\titlespacing*{\section}{0pt}{7pt}{4pt}
+
+% ---------- Bullets ----------
+\setlist[itemize]{label=\textbullet, leftmargin=0.25in, labelsep=0.12in,
+  topsep=0pt, itemsep=0pt, parsep=0pt, partopsep=0pt}
+
+% ---------- Entry macros ----------
+% \entry{Left bold}{Right italic}
+\newcommand{\entry}[2]{%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}\textbf{#1} & \textit{#2}\end{tabularx}\\[-1pt]}
+% \subentry{Left}{Right}  (plain row under an entry)
+\newcommand{\subentry}[2]{%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}#1 & #2\end{tabularx}\\[-1pt]}
+% \paper{Title}{Year}{Venue}{URL}  (one row: title | link | venue ... year)
+\newcommand{\paper}[4]{%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}\textbf{#1} $|$ \link{#4}{Paper Link} $|$ #3 & #2\end{tabularx}\\[-1pt]}
+
+\begin{document}
+\fontsize{9.6pt}{11.9pt}\selectfont
+
+% ================= Header =================
+\begin{center}
+  {\fontsize{20pt}{22pt}\selectfont\bfseries Atharva Mohite}\\[2pt]
+  {\small +1 (404) 390 5358 $\cdot$
+  \link{mailto:atharvamohite20@gmail.com}{atharvamohite20@gmail.com} $\cdot$
+  \link{https://moriowen.github.io/}{moriowen.github.io} $\cdot$
+  \link{https://www.linkedin.com/in/atharva-mohite/}{linkedin.com/in/atharva-mohite} $\cdot$
+  \link{https://github.com/moriowen}{github.com/moriowen}}
+\end{center}
+\vspace{-9.3pt}
+
+% ================= Education =================
+\section{EDUCATION}
+\vspace{-1.7pt}
+\entry{Georgia Institute of Technology}{Aug 2026 -- May 2028 (Expected)}
+\subentry{\textit{Master of Science in Computer Science, Machine Learning}}{Atlanta, GA}
+Relevant Coursework: Machine Learning, Big Data Systems, Data Visualization and Analytics\\[1.8pt]
+\entry{Sardar Patel Institute of Technology}{Aug 2019 -- May 2023}
+\subentry{\textit{Bachelor of Technology (BTech) in Computer Science} $|$ \textbf{CGPA}: 9.39/10}{Mumbai, India}
+
+% ================= Experience =================
+\section{EXPERIENCE}
+\vspace{-1.7pt}
+\entry{JPMorgan Chase}{Jan 2026 -- Aug 2026}
+Software Engineer II
+\begin{itemize}
+  \item Owned cross-service design and production readiness for a new business line across \textbf{7 microservices} on a multi-tenant settlement platform, scaling throughput to \textbf{5M+} trades per day.
+  \item Built an \textbf{agentic SDLC} pipeline that autonomously translated Jira requirements into code changes across a multi-service architecture, reproduced issues with local infrastructure, validated via automated tests, and raised developer-ready PRs for review, with \textbf{75\%} PRs merged with minimal edits.
+  \item Built a regression framework using \textbf{LLM agents} that generates and diagnoses multi-service test workflows, automating \textbf{300+} scenarios and cutting manual test effort by \textbf{90\%}; adopted by 30+ engineers across 5 teams.
+  \item Designed an aggregation engine in Spring Boot reducing high-volume trade streams into consolidated settlement instructions across configurable dimensions, cutting down instruction volume by \textbf{70\%}.
+\end{itemize}
+
+\vspace{1.9pt}
+\entry{JPMorgan Chase}{Feb 2023 -- Dec 2025}
+Software Engineer I
+\begin{itemize}
+  \item Led extraction of a high-throughput microservice from a legacy trade settlement monolith, processing \textbf{1M+} messages per day, with an event-driven, non-blocking stack with Kafka and Spring WebFlux.
+  \item Designed distributed end-of-day orchestration coordinating 3 services to close and settle the day's book within a \textbf{30}-minute cutoff, handling race conditions, ordering dependencies, and concurrent state transitions with idempotent replay on failure.
+  \item Architected a materialized datastore using \textbf{Elasticsearch}, aggregating and rehydrating data from multiple source systems to provide \textbf{sub-150ms} complex search over \textbf{750k} records, enabling the decommission of \textbf{4} legacy systems.
+  \item Migrated 15 legacy applications to an in-house \textbf{Kubernetes} platform, saving \textbf{\$450k} annually in infrastructure costs and reducing deployment time by \textbf{50\%}.
+\end{itemize}
+
+\vspace{1.9pt}
+\entry{JPMorgan Chase}{Jan 2022 -- Jul 2022}
+Software Engineer Intern
+\begin{itemize}
+  \item Developed a cloud resource discovery framework that helped discover \textbf{10k+} resources, consolidating AWS Config, Splunk, Terraform, and tagging APIs into a unified inventory using Qlik Sense dashboards for tracking resource ownership, enabling data-driven cleanup decisions and improving infrastructure visibility for the DevOps team.
+\end{itemize}
+
+% ================= Skills =================
+\section{SKILLS}
+\textbf{Languages:} Python, Java, TypeScript, SQL\\
+\textbf{AI/ML:} LLM agents, RAG, LangChain, LangGraph, MCP, PyTorch, Hugging Face Transformers, vLLM, evals and prompt design\\
+\textbf{Backend \& Infra:} Spring Boot, Flask, Node.js, Django, Relational Databases (Oracle), Elasticsearch, AWS, Terraform, Kubernetes, Docker, Jenkins, Shell Scripting, React, Next.js\\
+\textbf{Other:} System design (scalable and distributed systems), Event-driven architecture (Kafka), RESTful and GraphQL API design, Cloud Architecture, Testing (unit, integration, E2E), CI/CD pipelines, Design Patterns, Monitoring and Observability (Splunk, Grafana).
+
+% ================= Projects =================
+\section{PROJECTS}
+\vspace{1.4pt}
+\textbf{Splice $|$ \link{https://github.com/moriowen/splice}{Code} $|$ PyTorch, Transformers, vLLM}
+\begin{itemize}
+  \item Cut time to first token \textbf{1.7×} and raised throughput \textbf{52\%} at 90\% memory reuse, and up to \textbf{2.3×} with all memories precached, by re-rotating stored KV through vLLM's KV connector API without engine changes.
+  \item Showed uncorrected reuse halves answer quality and the best of 3 published fixes needs \textbf{\textasciitilde70\%} recompute to recover it, by benchmarking them with Mistral-7B on \textbf{1,986} LoCoMo questions.
+\end{itemize}
+\vspace{4pt}
+\textbf{Canary $|$ \link{https://github.com/moriowen/canary}{Code} $|$ PyTorch, LightGBM, vLLM}
+\begin{itemize}
+  \item Cut agent compute \textbf{46\%} at a \textbf{2\%} loss of successful runs, nearly double the best fixed turn limit, by stopping likely failures early.
+  \item Showed most early failure signal is task difficulty, AUROC \textbf{0.70} across all runs vs.\ \textbf{0.54} between attempts at the same issue, by training LightGBM and GRU monitors on \textbf{147k} SWE-agent and OpenHands trajectories.
+\end{itemize}
+
+% ================= Research =================
+\section{RESEARCH}
+\vspace{0.6pt}
+\paper{Leveraging LLMs for Video Querying}{2023}
+  {IEEE CERA}
+  {https://ieeexplore.ieee.org/document/10455658}
+\begin{itemize}
+  \item GPT-4 matched \textbf{56\%} of event timestamps exactly and \textbf{85\%} within 2 min by querying BMT and Vid2Seq captions of surveillance video.
+\end{itemize}
+\vspace{4.2pt}
+\paper{SecurePark - a vehicle intrusion detection system}{2022}
+  {IEEE ASIANCON}
+  {https://ieeexplore.ieee.org/abstract/document/9544923}
+\begin{itemize}
+  \item Trained a YOLOv5s license-plate detector and wired it to OCR, authorization checks, alerts, and a dashboard.
+\end{itemize}
+
+\end{document}

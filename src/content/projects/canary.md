@@ -13,6 +13,7 @@ external:
 bullets:
   - Built a failure monitor for AI coding agents that cuts compute by 46% on 16,140 held-out SWE-agent runs while stopping only 2% of the runs that would have succeeded, against 25% for the best fixed turn limit.
   - Parsed 147k trajectories from two agent frameworks (SWE-agent and OpenHands) into one action schema, and trained logistic regression, LightGBM, a within-issue LightGBM ranker and a GRU on Georgia Tech's PACE cluster.
+  - Built an LLM failure taxonomy over 14,644 failed runs with Qwen3-30B on vLLM and showed the monitor stops 56% of misdiagnosed-cause failures early but only 12% of over-simplified fixes.
   - Measured how much early failure prediction is really task difficulty, AUROC 0.70 across all runs at turn 5 against 0.54 between attempts at the same issue, after finding and removing issue-level features that let models memorise per-issue solve rates.
 ---
 
@@ -28,7 +29,7 @@ bullets:
 <dt>Headline</dt>
 <dd>A GRU monitor saves 46.5% of context-token compute at 2% of successful runs lost, and 60.3% at 5%. The best fixed turn limit saves 24.6% and 39.6%.</dd>
 <dt>Status</dt>
-<dd>Fall 2026, in progress. The monitors, the evaluation and the cross-agent transfer test have run. A fine-tuned ModernBERT model and an LLM-built failure taxonomy are running.</dd>
+<dd>Fall 2026, in progress. The monitors, the evaluation, the cross-agent transfer test and the failure taxonomy have run. A fine-tuned ModernBERT model is training.</dd>
 </dl>
 </div>
 
@@ -116,7 +117,22 @@ a percentile within its own framework's runs did not help.
 
 ## Why agents fail
 
-TODO: an LLM (Qwen3-30B-A3B through vLLM) is reading each quiet failure with hindsight (transcript,
-final patch, still-failing tests) and writing a diagnosis. The diagnoses get clustered and named,
-then joined back to the monitor to see which kinds of failure show up early and which only at the
-end. Results go here when the run finishes.
+The runs that submit a patch and still fail all report the same exit status. I had an LLM
+(Qwen3-30B-A3B through vLLM) read 14,644 of them in hindsight, with the transcript, the final
+patch and the tests that still fail, and write a one-sentence diagnosis and a short label for each.
+A second pass had it propose categories from the most common labels and then put every run into
+exactly one. My first attempt, clustering the diagnoses with sentence embeddings, grouped runs by
+repository and by wording instead of by the kind of mistake, so I dropped it.
+
+Joined to the GRU monitor at the threshold that stops 5% of successful runs, the categories show
+which failures are visible early. More than half of misdiagnosed-cause runs get stopped (56%), and
+so do 48% of runs that broke the code's syntax. Only 12% of over-simplified fixes and 22% of
+incomplete changes do.
+
+<img src="/projects/figures/canary-taxonomy.png" alt="Horizontal bar chart of nine failure types by share of quiet failures, with the part the monitor stops early highlighted. Misdiagnosed cause (18% of failures) is stopped 56% of the time, misplaced fix 43%, syntax and structure errors 48%, incomplete change 22%, overcorrection 21%, and over-simplification 12%." width="1280" height="828" loading="lazy" />
+
+The behaviour behind those numbers is consistent. Misdiagnosed runs average 39 turns, hedge in
+39% of their turns and repeat commands in 37%. Over-simplified ones average 18 turns, hedge in 23%
+and repeat in 15%, which is what a successful run looks like. The monitor catches agents that
+flail and misses agents that are confidently wrong. Catching those needs a different signal, such
+as checking the patch itself.

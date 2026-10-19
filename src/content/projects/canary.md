@@ -32,7 +32,7 @@ bullets:
 <dt>Headline</dt>
 <dd>A GRU monitor saves 46.5% of context-token compute at 2% of successful runs lost, and 60.3% at 5%. The best fixed turn limit saves 24.6% and 39.6%.</dd>
 <dt>Status</dt>
-<dd>Fall 2026, in progress. The monitors, the evaluation, the cross-agent transfer test and the failure taxonomy have run. A fine-tuned ModernBERT model is training.</dd>
+<dd>Fall 2026. All experiments have run: the monitors, a fine-tuned ModernBERT model, ensembles, the cross-agent transfer test, the LLM failure taxonomy and the unsupervised archetypes.</dd>
 </dl>
 </div>
 
@@ -84,12 +84,16 @@ for a given share of successful runs it is allowed to stop.
 | GRU over per-turn signals | 46.5% | 60.3% | 66.3% |
 | LightGBM on prefix features | 40.9% | 51.4% | 64.2% |
 | Logistic regression | 34.8% | 50.6% | 63.0% |
+| ModernBERT on transcript text | 7.3% | 16.4% | 26.4% |
 | Rule: fixed turn limit | 24.6% | 39.6% | 64.0% |
 | Rule: stop after N errors in a row | 19.6% | 25.8% | 36.1% |
 
-<img src="/projects/figures/canary-policy.png" alt="Line chart of compute saved (percent of context tokens) against successful runs killed (percent, 0 to 20). The GRU monitor is highest throughout, saving about 46% at 2% and 60% at 5%. LightGBM and logistic regression sit below it. The fixed turn limit starts lower but meets the learned monitors near 10%. The consecutive-errors rule and an issue-text-only model are well below." width="992" height="704" loading="lazy" />
+<img src="/projects/figures/canary-policy.png" alt="Line chart of compute saved (percent of context tokens) against successful runs killed (percent, 0 to 20). The GRU monitor is highest at small loss budgets, saving about 46% at 2% and 60% at 5%, with the ensembles close behind. LightGBM and logistic regression sit below them and ModernBERT well below. The fixed turn limit starts lower but meets the learned monitors near 10%. The consecutive-errors rule and an issue-text-only model are well below." width="992" height="704" loading="lazy" />
 
 Losing 2% of successes costs a third of a point of solve rate on this test set (16.3% to 15.9%).
+Reading the raw transcript did worse than counting what happened: ModernBERT, fine-tuned on the
+most recent turns that fit in 2,048 tokens, saves 16% at 5% loss, and adding it to an ensemble with
+the GRU and LightGBM lowers the savings.
 The learned monitors win clearly at small loss budgets. At 10% a fixed turn limit catches up,
 because on this agent long runs almost always fail.
 

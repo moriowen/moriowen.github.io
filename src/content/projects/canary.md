@@ -15,8 +15,9 @@ external:
     href: https://github.com/moriowen/canary
 bullets:
   - Built a failure monitor for AI coding agents that cuts compute by 46% on 16,140 held-out SWE-agent runs while stopping only 2% of the runs that would have succeeded, against 25% for the best fixed turn limit.
-  - Parsed 147k trajectories from two agent frameworks (SWE-agent and OpenHands) into one action schema, and trained logistic regression, LightGBM, a within-issue LightGBM ranker and a GRU on Georgia Tech's PACE cluster.
+  - Parsed 147k trajectories from two agent frameworks (SWE-agent and OpenHands) into one action schema, and trained logistic regression, LightGBM, a within-issue LightGBM ranker, a GRU and a fine-tuned ModernBERT on Georgia Tech's PACE cluster.
   - Built an LLM failure taxonomy over 14,644 failed runs with Qwen3-30B on vLLM and showed the monitor stops 56% of misdiagnosed-cause failures early but only 12% of over-simplified fixes.
+  - Clustered 56,775 failed runs by behaviour alone with a Gaussian mixture into four archetypes, and found the monitor stops 74% of looping runs but only 10% of quick patches that never run a test.
   - Measured how much early failure prediction is really task difficulty, AUROC 0.70 across all runs at turn 5 against 0.54 between attempts at the same issue, after finding and removing issue-level features that let models memorise per-issue solve rates.
 ---
 
@@ -82,6 +83,7 @@ for a given share of successful runs it is allowed to stop.
 | Monitor | Compute saved, 2% of successes lost | 5% lost | 10% lost |
 |---|---:|---:|---:|
 | GRU over per-turn signals | 46.5% | 60.3% | 66.3% |
+| Ensemble: LightGBM + GRU | 43.9% | 56.8% | 67.5% |
 | LightGBM on prefix features | 40.9% | 51.4% | 64.2% |
 | Logistic regression | 34.8% | 50.6% | 63.0% |
 | ModernBERT on transcript text | 7.3% | 16.4% | 26.4% |
@@ -91,11 +93,36 @@ for a given share of successful runs it is allowed to stop.
 <img src="/projects/figures/canary-policy.png" alt="Line chart of compute saved (percent of context tokens) against successful runs killed (percent, 0 to 20). The GRU monitor is highest at small loss budgets, saving about 46% at 2% and 60% at 5%, with the ensembles close behind. LightGBM and logistic regression sit below them and ModernBERT well below. The fixed turn limit starts lower but meets the learned monitors near 10%. The consecutive-errors rule and an issue-text-only model are well below." width="992" height="704" loading="lazy" />
 
 Losing 2% of successes costs a third of a point of solve rate on this test set (16.3% to 15.9%).
-Reading the raw transcript did worse than counting what happened: ModernBERT, fine-tuned on the
-most recent turns that fit in 2,048 tokens, saves 16% at 5% loss, and adding it to an ensemble with
-the GRU and LightGBM lowers the savings.
 The learned monitors win clearly at small loss budgets. At 10% a fixed turn limit catches up,
-because on this agent long runs almost always fail.
+because on this agent long runs almost always fail. Averaging LightGBM and the GRU only helps at
+that 10% budget.
+
+Reading the raw transcript did worse than counting what happened. ModernBERT, fine-tuned on the
+most recent turns that fit in 2,048 tokens, saves 16% at 5% loss, and adding it to the ensemble
+lowers the savings. The structured per-turn signals carry more than a 2K-token window of text.
+
+Here is the GRU's view of one held-out run. The agent set up a reproduction, then spent 40 turns
+alternating between the same two config commands. The monitor's estimate fell below the kill line
+at turn 22, which would have saved 43 of its 65 turns:
+
+```
+iterative__dvc-2424  [swe-agent-llama-70b]  65 turns    kill line: P(success) < 0.014
+
+  k=  0  p=0.117  (before any turn)
+  k=  3  p=0.109  run     ERR python reproduce_bug.py
+  k=  8  p=0.036  run         python reproduce_bug.py
+  k= 18  p=0.030  other       dvc config --list
+  k= 19  p=0.026  other       dvc config remote.myremote
+  k= 20  p=0.021  other       dvc config --list
+  k= 21  p=0.017  other       dvc config remote.myremote
+  k= 22  p=0.014  other       dvc config --list           <-- stop
+  ...
+  k= 64  p=0.004  other       dvc config --list
+```
+
+It also makes the mistake the loss budget exists for. On a run that did succeed, a string of
+rejected edits pushed the estimate under the line at turn 10, five turns before the agent fixed
+the issue.
 
 ## How much of it is task difficulty
 
@@ -164,4 +191,18 @@ Behaviour and diagnosis are close to independent (NMI 0.03 between archetypes an
 how a run fails says little about why. The archetypes are also regions of a continuum rather than
 separate types: they are only moderately stable across seeds (ARI 0.32), and HDBSCAN leaves 83% of
 runs as noise.
+
+## What I take from it
+
+Watching an agent work is worth doing, but it catches one kind of failure. Agents that loop,
+fight their environment, or keep hedging give themselves away, and a monitor can stop most of them
+with almost no cost in successful runs. Agents that are confidently wrong, and submit a clean
+plausible patch after a short run, look the same as agents that succeed. Catching those needs a
+check on the patch, such as running more tests or reviewing the diff, not more attention to the
+process.
+
+The signal is also weaker than pooled numbers suggest. Most of what a monitor knows at turn 5 is
+how hard the issue is, and on a stronger agent (OpenHands) the process gives away almost nothing
+about which attempt will succeed. Any claim about predicting agent failure early should report the
+same-issue number next to the pooled one.
 

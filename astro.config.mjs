@@ -6,5 +6,6 @@ export default defineConfig({
   site: 'https://moriowen.github.io',
   build: { inlineStylesheets: 'always' },
   compressHTML: true,
-  integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
+  redirects: { '/projects/kv-cache-reuse': '/projects/splice' },
+  integrations: [sitemap({ filter: (page) => !page.includes('/404') && !page.includes('/kv-cache-reuse') })],
 });

@@ -182,7 +182,7 @@ a specific tool and it is not derivable from the dates above, 4 years in all cas
   changes.
 - Showed uncorrected reuse halves answer quality and the best of 3 published fixes needs ~70%
   recompute to recover it, by benchmarking them with Mistral-7B on 1,986 LoCoMo questions.
-- Link: https://moriowen.github.io/projects/kv-cache-reuse/
+- Link: https://moriowen.github.io/projects/splice/
 
 ### Canary — PyTorch, LightGBM, vLLM
 - Cut agent compute 46% at a 2% loss of successful runs, nearly double the best fixed turn limit,

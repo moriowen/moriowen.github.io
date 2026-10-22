@@ -52,7 +52,7 @@ reuse KV between requests, but only when the requests start with identical token
 retrieval breaks that condition constantly:
 
 <figure>
-<img src="/projects/figures/kvreuse-problem.jpg" alt="Two prompts: question 1 is System, Memory A, B, C, Q1; question 2 is System, Memory C, A, D, Q2. Only the system prompt hits the prefix cache; memories C and A were already computed for question 1 but are prefilled again because they moved." width="1400" height="788" loading="lazy" />
+<img src="/projects/figures/splice-problem.jpg" alt="Two prompts: question 1 is System, Memory A, B, C, Q1; question 2 is System, Memory C, A, D, Q2. Only the system prompt hits the prefix cache; memories C and A were already computed for question 1 but are prefilled again because they moved." width="1400" height="788" loading="lazy" />
 <figcaption>Question 2 needs memories C and A, computed seconds earlier for question 1. They moved, so the prefix cache misses them.</figcaption>
 </figure>
 
@@ -110,7 +110,7 @@ whole 17K to 31K-token conversation, with no retrieval, scores 0.326, so retriev
 almost nothing.
 
 <figure>
-<img src="/projects/figures/kvreuse-quality-vs-budget.png" alt="Line chart of LoCoMo F1 against recompute budget from 0 to 1. Re-position only sits at 0.152. EPIC rises to 0.236 at 28% budget, CacheBlend to 0.284 at 63%, AgentKVShift to 0.302 at 71%, just inside the band within 0.02 of full prefill at 0.319." width="1400" height="880" loading="lazy" />
+<img src="/projects/figures/splice-quality-vs-budget.png" alt="Line chart of LoCoMo F1 against recompute budget from 0 to 1. Re-position only sits at 0.152. EPIC rises to 0.236 at 28% budget, CacheBlend to 0.284 at 63%, AgentKVShift to 0.302 at 71%, just inside the band within 0.02 of full prefill at 0.319." width="1400" height="880" loading="lazy" />
 <figcaption>Answer quality against recompute budget. AgentKVShift leads at nearly every budget; only its largest setting reaches the target band within 0.02 F1 of full prefill.</figcaption>
 </figure>
 

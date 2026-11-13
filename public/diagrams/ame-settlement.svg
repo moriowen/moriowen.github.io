@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 324" role="img" aria-labelledby="title desc">
+<title id="title">Settlement platform</title>
+<desc id="desc">Trade input connects to Settlement state; Settlement state connects to Outbound gateway; Outbound gateway connects to Market / SWIFT MQ; Market / SWIFT MQ connects to Matching service; Matching service connects to Settlement state; Settlement state connects to Downstream services</desc>
+<style>
+:root{--bg:#fff;--fg:#172333;--muted:#5d6a7d;--line:#8c9aaf;--grid:#e8edf4;--service:#edf4ff;--service-line:#668fd0;--store:#edf8f5;--store-line:#5a9b8a;--agent:#f3efff;--agent-line:#9280c6;--test:#fff7e9;--test-line:#bf994e;--external:#f5f6f8;--external-line:#a0a9b6}
+@media(prefers-color-scheme:dark){:root{--bg:#111214;--fg:#e4e6ea;--muted:#a6b0c2;--line:#76859c;--grid:#252b35;--service:#17253b;--service-line:#6285bd;--store:#142b27;--store-line:#60998a;--agent:#252038;--agent-line:#9989c8;--test:#30281a;--test-line:#b5995f;--external:#1e2229;--external-line:#7b8595}}
+.bg{fill:var(--bg)}.grid{fill:none;stroke:var(--grid);stroke-width:.7}.edge{fill:none;stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}.arrow{fill:var(--line)}.node{stroke-width:1.2}.title{font:600 13px system-ui,sans-serif;fill:var(--fg)}.subtitle{font:11px system-ui,sans-serif;fill:var(--muted)}.type{font:9px ui-monospace,monospace;letter-spacing:.7px;fill:var(--muted)}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10Z"/></marker><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path class="grid" d="M20 0H0V20"/></pattern></defs>
+<rect class="bg" width="760" height="324"/><rect fill="url(#grid)" width="760" height="324"/>
+<path class="edge" d="M228 82.0H268" marker-end="url(#arrow)"/>
+<path class="edge" d="M478 82.0H518" marker-end="url(#arrow)"/>
+<path class="edge" d="M623.0 134V190" marker-end="url(#arrow)"/>
+<path class="edge" d="M518 242.0H478" marker-end="url(#arrow)"/>
+<path class="edge" d="M373.0 190V134" marker-end="url(#arrow)"/>
+<path class="edge" d="M373.0 134V162.0H248.0V162.0H123.0V190" marker-end="url(#arrow)"/>
+<g><rect class="node" x="18" y="30" width="210" height="104" rx="9" fill="var(--external)" stroke="var(--external-line)"/>
+<text class="type" x="30" y="49">EXTERNAL</text>
+<text class="title" x="30" y="70">Trade input</text>
+<text class="subtitle" x="30" y="89">Reduced trade message</text>
+</g>
+<g><rect class="node" x="268" y="30" width="210" height="104" rx="9" fill="var(--service)" stroke="var(--service-line)"/>
+<text class="type" x="280" y="49">COMPONENT</text>
+<text class="title" x="280" y="70">Settlement state</text>
+<text class="subtitle" x="280" y="89">Trade lifecycle and</text>
+<text class="subtitle" x="280" y="103">instructions</text>
+</g>
+<g><rect class="node" x="518" y="30" width="210" height="104" rx="9" fill="var(--service)" stroke="var(--service-line)"/>
+<text class="type" x="530" y="49">COMPONENT</text>
+<text class="title" x="530" y="70">Outbound gateway</text>
+<text class="subtitle" x="530" y="89">Settlement instruction to</text>
+<text class="subtitle" x="530" y="103">SWIFT</text>
+</g>
+<g><rect class="node" x="18" y="190" width="210" height="104" rx="9" fill="var(--external)" stroke="var(--external-line)"/>
+<text class="type" x="30" y="209">EXTERNAL</text>
+<text class="title" x="30" y="230">Downstream services</text>
+<text class="subtitle" x="30" y="249">Receive updated trade state</text>
+</g>
+<g><rect class="node" x="268" y="190" width="210" height="104" rx="9" fill="var(--service)" stroke="var(--service-line)"/>
+<text class="type" x="280" y="209">COMPONENT</text>
+<text class="title" x="280" y="230">Matching service</text>
+<text class="subtitle" x="280" y="249">Market update to the right</text>
+<text class="subtitle" x="280" y="263">trade</text>
+</g>
+<g><rect class="node" x="518" y="190" width="210" height="104" rx="9" fill="var(--external)" stroke="var(--external-line)"/>
+<text class="type" x="530" y="209">EXTERNAL</text>
+<text class="title" x="530" y="230">Market / SWIFT MQ</text>
+<text class="subtitle" x="530" y="249">Instructions and confirmations</text>
+</g>
+</svg>

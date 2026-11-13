@@ -21,14 +21,12 @@ bullets:
   - Measured how much early failure prediction is really task difficulty, AUROC 0.70 across all runs at turn 5 against 0.54 between attempts at the same issue, after finding and removing issue-level features that let models memorise per-issue solve rates.
 ---
 
-<figure class="system-flow">
-<p class="system-flow-label">Early stopping for agent runs</p>
-<ol aria-label="Early stopping for agent runs">
-<li><strong>Recorded trajectories</strong><span>Normalize agent actions and observed outcomes.</span></li>
-<li><strong>Prefix monitor</strong><span>Estimate success from the run so far.</span></li>
-<li><strong>Stopping policy</strong><span>Stop below a threshold chosen for a success-loss budget.</span></li>
-<li><strong>Offline evaluation</strong><span>Compare estimated context cost saved and successes lost.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Canary: monitor and policy evaluation</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/canary-mobile.svg" />
+<img src="/diagrams/canary.svg" alt="Canary: monitor and policy evaluation: Agent trajectories; Prefix features; ML monitors; Recorded outcomes; Stopping policy; Offline evaluation. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>The reported savings come from replaying logged runs, not a production deployment.</figcaption>
 </figure>
 

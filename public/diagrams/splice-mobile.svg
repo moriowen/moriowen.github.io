@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 670" role="img" aria-labelledby="title desc">
+<title id="title">Splice: cache reuse and evaluation paths</title>
+<desc id="desc">Retrieved memories connects to Chunk KV store; Chunk KV store connects to RoPE re-rotation; RoPE re-rotation connects to Transformers path; RoPE re-rotation connects to vLLM connector; Transformers path connects to Quality evaluation; vLLM connector connects to Serving benchmark</desc>
+<style>
+:root{--bg:#fff;--fg:#172333;--muted:#5d6a7d;--line:#8c9aaf;--grid:#e8edf4;--service:#edf4ff;--service-line:#668fd0;--store:#edf8f5;--store-line:#5a9b8a;--agent:#f3efff;--agent-line:#9280c6;--test:#fff7e9;--test-line:#bf994e;--external:#f5f6f8;--external-line:#a0a9b6}
+@media(prefers-color-scheme:dark){:root{--bg:#111214;--fg:#e4e6ea;--muted:#a6b0c2;--line:#76859c;--grid:#252b35;--service:#17253b;--service-line:#6285bd;--store:#142b27;--store-line:#60998a;--agent:#252038;--agent-line:#9989c8;--test:#30281a;--test-line:#b5995f;--external:#1e2229;--external-line:#7b8595}}
+.bg{fill:var(--bg)}.grid{fill:none;stroke:var(--grid);stroke-width:.7}.edge{fill:none;stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}.arrow{fill:var(--line)}.node{stroke-width:1.2}.title{font:600 13px system-ui,sans-serif;fill:var(--fg)}.subtitle{font:11px system-ui,sans-serif;fill:var(--muted)}.type{font:9px ui-monospace,monospace;letter-spacing:.7px;fill:var(--muted)}
+</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10Z"/></marker><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path class="grid" d="M20 0H0V20"/></pattern></defs>
+<rect class="bg" width="400" height="670"/><rect fill="url(#grid)" width="400" height="670"/>
+<path class="edge" d="M184 86.0H216" marker-end="url(#arrow)"/>
+<path class="edge" d="M299.0 142V169.0H200.0V169.0H101.0V196" marker-end="url(#arrow)"/>
+<path class="edge" d="M184 252.0H216" marker-end="url(#arrow)"/>
+<path class="edge" d="M101.0 308V362" marker-end="url(#arrow)"/>
+<path class="edge" d="M299.0 308V362" marker-end="url(#arrow)"/>
+<path class="edge" d="M101.0 474V528" marker-end="url(#arrow)"/>
+<g><rect class="node" x="18" y="30" width="166" height="112" rx="9" fill="var(--store)" stroke="var(--store-line)"/>
+<text class="type" x="30" y="49">DATA / CONTEXT</text>
+<text class="title" x="30" y="70">Retrieved memories</text>
+<text class="subtitle" x="30" y="89">Chunks change order per</text>
+<text class="subtitle" x="30" y="103">request</text>
+</g>
+<g><rect class="node" x="216" y="30" width="166" height="112" rx="9" fill="var(--store)" stroke="var(--store-line)"/>
+<text class="type" x="228" y="49">DATA / CONTEXT</text>
+<text class="title" x="228" y="70">Chunk KV store</text>
+<text class="subtitle" x="228" y="89">Cached keys and values</text>
+</g>
+<g><rect class="node" x="18" y="196" width="166" height="112" rx="9" fill="var(--service)" stroke="var(--service-line)"/>
+<text class="type" x="30" y="215">COMPONENT</text>
+<text class="title" x="30" y="236">RoPE re-rotation</text>
+<text class="subtitle" x="30" y="255">Correct cached key</text>
+<text class="subtitle" x="30" y="269">positions</text>
+</g>
+<g><rect class="node" x="216" y="196" width="166" height="112" rx="9" fill="var(--agent)" stroke="var(--agent-line)"/>
+<text class="type" x="228" y="215">MODEL / AGENT</text>
+<text class="title" x="228" y="236">Transformers path</text>
+<text class="subtitle" x="228" y="255">Evaluate correction vs.</text>
+<text class="subtitle" x="228" y="269">recompute</text>
+</g>
+<g><rect class="node" x="18" y="362" width="166" height="112" rx="9" fill="var(--service)" stroke="var(--service-line)"/>
+<text class="type" x="30" y="381">COMPONENT</text>
+<text class="title" x="30" y="402">vLLM connector</text>
+<text class="subtitle" x="30" y="421">Serve uncorrected reuse</text>
+</g>
+<g><rect class="node" x="216" y="362" width="166" height="112" rx="9" fill="var(--test)" stroke="var(--test-line)"/>
+<text class="type" x="228" y="381">VALIDATION</text>
+<text class="title" x="228" y="402">Quality evaluation</text>
+<text class="subtitle" x="228" y="421">LoCoMo F1 and context</text>
+<text class="subtitle" x="228" y="435">error</text>
+</g>
+<g><rect class="node" x="18" y="528" width="166" height="112" rx="9" fill="var(--test)" stroke="var(--test-line)"/>
+<text class="type" x="30" y="547">VALIDATION</text>
+<text class="title" x="30" y="568">Serving benchmark</text>
+<text class="subtitle" x="30" y="587">Synthetic reuse; TTFT</text>
+<text class="subtitle" x="30" y="601">and throughput</text>
+</g>
+</svg>

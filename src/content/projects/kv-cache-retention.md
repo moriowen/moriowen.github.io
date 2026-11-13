@@ -18,14 +18,12 @@ bullets:
   - Reviewed HeadKV's failures case by case and found two patterns, evidence dropped from the cache and evidence kept but not used, then wrote a five-experiment plan with decision rules fixed before any new run.
 ---
 
-<figure class="system-flow">
-<p class="system-flow-label">Compare compression at equal memory</p>
-<ol aria-label="Compare compression at equal memory">
-<li><strong>Fixed workload</strong><span>Llama-3-8B and LongBench questions.</span></li>
-<li><strong>Calibrate cache size</strong><span>Give each compression method 16 MiB of prompt KV.</span></li>
-<li><strong>Record retention</strong><span>Log the positions kept by each layer and head.</span></li>
-<li><strong>Inspect failures</strong><span>Compare answer F1 and retained evidence.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">KV-cache compression study</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/kv-cache-retention-mobile.svg" />
+<img src="/diagrams/kv-cache-retention.svg" alt="KV-cache compression study: LongBench questions; Llama-3-8B; Four compression methods; Retention logs; Compressed inference; Answer and evidence review. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>The completed run is observational. Planned cache interventions are separate follow-up work.</figcaption>
 </figure>
 

@@ -34,15 +34,12 @@ roles:
 Asset Movement Engine was the seven-service settlement platform I worked on. Its main flow
 turned trades into market instructions and matched incoming confirmations back to trade state.
 
-<figure class="system-flow">
-<p class="system-flow-label">Trade to market, then back to trade state</p>
-<ol aria-label="Trade to market, then back to trade state">
-<li><strong>Trade input</strong><span>A reduced trade message enters the platform.</span></li>
-<li><strong>Settlement state</strong><span>Process the trade and produce a settlement instruction.</span></li>
-<li><strong>Outbound gateway</strong><span>Convert the instruction to SWIFT and send it to the market.</span></li>
-<li><strong>Market update</strong><span>A confirmation or status update arrives through a message queue.</span></li>
-<li><strong>Matching and state</strong><span>Identify the trade, update its state and notify downstream services.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Settlement platform</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-settlement-mobile.svg" />
+<img src="/diagrams/ame-settlement.svg" alt="Settlement platform: Trade input; Settlement state; Outbound gateway; Downstream services; Matching service; Market / SWIFT MQ. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>Simplified straight-through processing flow. Business-line rules add branches to this path.</figcaption>
 </figure>
 
@@ -59,14 +56,12 @@ confirmations and status updates took the return path through matching and back 
 I helped adapt a new business flow across existing services, working on business requirements,
 cross-service behavior and production readiness.
 
-<figure class="system-flow">
-<p class="system-flow-label">Adapting an existing platform</p>
-<ol aria-label="Adapting an existing platform">
-<li><strong>Business requirements</strong><span>Understand the new flow and its financial rules.</span></li>
-<li><strong>Shared-service changes</strong><span>Fit the flow into existing service contracts and behavior.</span></li>
-<li><strong>Regression coverage</strong><span>Exercise the new scenarios alongside existing business flows.</span></li>
-<li><strong>Production readiness</strong><span>Support integration and readiness for the new business.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">New business flow on shared infrastructure</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-business-flow-mobile.svg" />
+<img src="/diagrams/ame-business-flow.svg" alt="New business flow on shared infrastructure: New business flow; Shared AME platform; Existing business lines; Regression framework; Readiness work. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>The design targeted projected growth. Regression coverage connected business requirements to platform readiness.</figcaption>
 </figure>
 
@@ -85,15 +80,12 @@ preserving existing business rules.
 I helped set up a Claude Code development workflow, contributing the shared documentation
 structure, local-testing integration and guidance for colleagues.
 
-<figure class="system-flow">
-<p class="system-flow-label">Requirements to a reviewable change</p>
-<ol aria-label="Requirements to a reviewable change">
-<li><strong>Jira MCP</strong><span>Fetch the ticket requirements.</span></li>
-<li><strong>Claude Code and context</strong><span>Use local repositories and shared service documentation to make changes.</span></li>
-<li><strong>Local testing</strong><span>Exercise business scenarios with the Groovy framework.</span></li>
-<li><strong>Bitbucket MCP</strong><span>Open a PR for the pushed code changes.</span></li>
-<li><strong>Symphony</strong><span>Existing repository automation posts the PR to team chat.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Agent-assisted development architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-adlc-mobile.svg" />
+<img src="/diagrams/ame-adlc.svg" alt="Agent-assisted development architecture: Jira MCP; Shared ADLC repo; Local repositories; Groovy framework; Claude Code; Bitbucket MCP; Local service setup; Symphony. Arrows show component connections." width="760" height="484" loading="lazy" />
+</picture>
 <figcaption>The shared context and test framework supported changes across the service repositories.</figcaption>
 </figure>
 
@@ -116,14 +108,12 @@ team used it. My strongest implementation contribution was the testing framework
 I built a Groovy framework to replay messages through settlement workflows and check database
 outcomes across more than 300 fixed-income scenarios.
 
-<figure class="system-flow">
-<p class="system-flow-label">One regression scenario</p>
-<ol aria-label="One regression scenario">
-<li><strong>Scenario and messages</strong><span>Supply a trade and the messages required by the business case.</span></li>
-<li><strong>Service processing</strong><span>Exercise the settlement workflow through MQ, Kafka and service data.</span></li>
-<li><strong>Poll database state</strong><span>Wait for asynchronous processing and check tables in sequence.</span></li>
-<li><strong>Assertions and reporting</strong><span>Compare the resulting data with expected outcomes and report failures.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">E2E regression test architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-regression-mobile.svg" />
+<img src="/diagrams/ame-regression.svg" alt="E2E regression test architecture: 300+ scenarios; Groovy framework; Failure reporting; MQ / Kafka; AME services; Service databases. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>The framework drove real services in dev and later locally. Independent work could run in parallel.</figcaption>
 </figure>
 
@@ -153,15 +143,12 @@ have a measured error-reduction percentage.
 I implemented the aggregator that grouped eligible trades into net settlement instructions,
 reducing the volume sent downstream for conversion into SWIFT messages.
 
-<figure class="system-flow">
-<p class="system-flow-label">Aggregation and release</p>
-<ol aria-label="Aggregation and release">
-<li><strong>Trade table</strong><span>Hold trades eligible for aggregation.</span></li>
-<li><strong>Netting ID</strong><span>Derive the grouping key from multiple business fields.</span></li>
-<li><strong>Periodic aggregation</strong><span>Aggregate compatible trades roughly every five seconds.</span></li>
-<li><strong>Scheduled release</strong><span>Release instructions about one hour before end of day.</span></li>
-<li><strong>Outbound processing</strong><span>Send fewer consolidated instructions toward the market.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Netting aggregation architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-netting-mobile.svg" />
+<img src="/diagrams/ame-netting.svg" alt="Netting aggregation architecture: Trade table; Netting aggregator; Grouping rules; Aggregation scheduler; Scheduled release; Outbound processing. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>Grouping and frequent aggregation are separate from the scheduled release.</figcaption>
 </figure>
 

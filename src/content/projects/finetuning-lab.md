@@ -19,14 +19,12 @@ bullets:
   - Traced a fake "higher rank is better" trend to a NaN gradient in PyTorch's fused attention that silently cut runs short, then reran everything with standard attention and a non-finite guard.
 ---
 
-<figure class="system-flow">
-<p class="system-flow-label">A controlled LoRA experiment</p>
-<ol aria-label="A controlled LoRA experiment">
-<li><strong>Fixed task and model</strong><span>TruthfulQA and Qwen2.5-1.5B.</span></li>
-<li><strong>Training variants</strong><span>LoRA ranks, a fixed-alpha control and full fine-tuning.</span></li>
-<li><strong>Repeated evaluation</strong><span>Use three seeds and the held-out questions.</span></li>
-<li><strong>Compare outcomes</strong><span>Accuracy, memory use and training failures.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Fine-tuning experiment architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/finetuning-lab-mobile.svg" />
+<img src="/diagrams/finetuning-lab.svg" alt="Fine-tuning experiment architecture: TruthfulQA splits; Qwen2.5-1.5B; Training variants; Training checks; Three seeds; Held-out evaluation. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>A numerical failure initially created a misleading rank trend; corrected runs removed it.</figcaption>
 </figure>
 

@@ -21,14 +21,12 @@ bullets:
   - Showed that uncorrected reuse halves answer quality, F1 0.319 to 0.152, then compared three published correction methods, EPIC, CacheBlend and a reimplementation of AgentKVShift, on all 1,986 LoCoMo questions under one recompute budget. The best comes within 0.02 F1 of full prefill only at 71% recompute.
 ---
 
-<figure class="system-flow">
-<p class="system-flow-label">Non-prefix KV reuse</p>
-<ol aria-label="Non-prefix KV reuse">
-<li><strong>Retrieved memories</strong><span>Select chunks for the current question.</span></li>
-<li><strong>Cached KV</strong><span>Load each reusable chunk and correct its position.</span></li>
-<li><strong>Two evaluation paths</strong><span>Measure uncorrected vLLM serving and correction quality separately.</span></li>
-<li><strong>Trade-off</strong><span>Compare latency, throughput and answer quality.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Splice: cache reuse and evaluation paths</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/splice-mobile.svg" />
+<img src="/diagrams/splice.svg" alt="Splice: cache reuse and evaluation paths: Retrieved memories; Chunk KV store; RoPE re-rotation; Transformers path; vLLM connector; Quality evaluation; Serving benchmark. Arrows show component connections." width="760" height="484" loading="lazy" />
+</picture>
 <figcaption>Fast serving uses uncorrected reuse. Quality-preserving correction remains a separate path.</figcaption>
 </figure>
 

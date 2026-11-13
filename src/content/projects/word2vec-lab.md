@@ -19,14 +19,12 @@ bullets:
   - Found that models with no measurable correlation to human similarity judgements, Spearman 0.029 on WordSim-353, still score 0.761 on sentiment, so downstream accuracy alone would have rated them nearly as good as GoogleNews.
 ---
 
-<figure class="system-flow">
-<p class="system-flow-label">Embeddings under one evaluation</p>
-<ol aria-label="Embeddings under one evaluation">
-<li><strong>Shared corpus</strong><span>Train or adapt embeddings on movie-review text.</span></li>
-<li><strong>Embedding variants</strong><span>Scratch, pretrained and fine-tuned models.</span></li>
-<li><strong>Fixed classifier</strong><span>Average word vectors and fit logistic regression.</span></li>
-<li><strong>Controls and checks</strong><span>Compare sentiment accuracy, similarity and a schedule-matched control.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Embedding evaluation architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/word2vec-lab-mobile.svg" />
+<img src="/diagrams/word2vec-lab.svg" alt="Embedding evaluation architecture: Movie-review corpus; Embedding variants; Sentence vectors; Similarity checks; Logistic regression; Held-out results. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>A fixed evaluation path and matched training control separate embedding effects from confounders.</figcaption>
 </figure>
 

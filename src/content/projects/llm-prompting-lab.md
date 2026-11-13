@@ -18,14 +18,12 @@ bullets:
   - Built an explorer that drills from aggregate accuracy down to raw model output, plus an error taxonomy separating wrong digits, rounding, and precision on division from character, length, and ordering errors on reversal.
 ---
 
-<figure class="system-flow">
-<p class="system-flow-label">Checkable prompting experiments</p>
-<ol aria-label="Checkable prompting experiments">
-<li><strong>Experiment grid</strong><span>Models, temperatures and prompting strategies.</span></li>
-<li><strong>Ollama inference</strong><span>Run reversal and decimal-division tasks.</span></li>
-<li><strong>Python ground truth</strong><span>Grade results independently of an LLM.</span></li>
-<li><strong>Result explorer</strong><span>Inspect aggregate accuracy and individual errors.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Prompting benchmark architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/llm-prompting-lab-mobile.svg" />
+<img src="/diagrams/llm-prompting-lab.svg" alt="Prompting benchmark architecture: Experiment settings; Ollama models; Model responses; Python ground truth; Deterministic grader; Result explorer. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>Every displayed result can be traced back to a model response and a checkable answer.</figcaption>
 </figure>
 

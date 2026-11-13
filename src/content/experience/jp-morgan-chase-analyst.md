@@ -32,14 +32,12 @@ roles:
 I helped generalize the Kafka and WebFlux matching service from a single-business-line
 implementation into reusable processing for other business lines.
 
-<figure class="system-flow">
-<p class="system-flow-label">Matching as a composable processing pipeline</p>
-<ol aria-label="Matching as a composable processing pipeline">
-<li><strong>Market message</strong><span>Receive a confirmation or status update.</span></li>
-<li><strong>Enrichment</strong><span>Fetch additional data from other services.</span></li>
-<li><strong>Transformation</strong><span>Compose processing steps into the downstream message contract.</span></li>
-<li><strong>Trade matching</strong><span>Identify the trade and send its update to settlement state.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Reusable matching-service architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-matching-mobile.svg" />
+<img src="/diagrams/ame-matching.svg" alt="Reusable matching-service architecture: Market messages; Kafka / WebFlux service; Settlement state; External data services; Composable functions; Business-line behavior. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>Kafka and Spring WebFlux supported the matching service; common processing was designed for reuse.</figcaption>
 </figure>
 
@@ -62,14 +60,12 @@ existing implementation. The design goal was a shared implementation that could 
 I worked on multithreaded dispatch of millions of end-of-day messages, debugging memory
 problems and coordinating database work pickup across pods.
 
-<figure class="system-flow">
-<p class="system-flow-label">Concurrent end-of-day dispatch</p>
-<ol aria-label="Concurrent end-of-day dispatch">
-<li><strong>EOD trigger</strong><span>Start the end-of-day workload.</span></li>
-<li><strong>Database work</strong><span>Identify records awaiting dispatch.</span></li>
-<li><strong>Concurrent workers</strong><span>Coordinate pickup across pods and process work in parallel.</span></li>
-<li><strong>Message broker</strong><span>Publish messages for downstream end-of-day processing.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Concurrent end-of-day dispatch</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-eod-mobile.svg" />
+<img src="/diagrams/ame-eod.svg" alt="Concurrent end-of-day dispatch: EOD message; Service pod A; Message broker; Database work; Service pod B; Downstream services. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>Coordination between workers prevented pods from claiming the same work concurrently.</figcaption>
 </figure>
 
@@ -89,14 +85,12 @@ release window. Sending work to the queue was only this service's part of downst
 I implemented most of a client-data service, with primary ownership of search and query
 construction over an Elasticsearch layer that supported sub-150ms retrieval.
 
-<figure class="system-flow">
-<p class="system-flow-label">Asynchronous updates, synchronous search</p>
-<ol aria-label="Asynchronous updates, synchronous search">
-<li><strong>Reference services</strong><span>Provide client data through different source contracts.</span></li>
-<li><strong>Kafka change events</strong><span>Signal source updates asynchronously.</span></li>
-<li><strong>Consolidated read layer</strong><span>Maintain client data in the database and Elasticsearch search view.</span></li>
-<li><strong>Synchronous search</strong><span>Build queries and return the consolidated client view.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Client-data search architecture</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-search-mobile.svg" />
+<img src="/diagrams/ame-search.svg" alt="Client-data search architecture: Reference services; Kafka events; Consolidated database; Search clients; Search component; Elasticsearch. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>The search view could lag source updates. Read requests were synchronous; update processing was separate.</figcaption>
 </figure>
 
@@ -123,13 +117,12 @@ shape a service's read performance.
 I assisted senior engineers with migrating services from on-premises infrastructure to the
 firm's internal Kubernetes platform.
 
-<figure class="system-flow">
-<p class="system-flow-label">Team migration to Kubernetes</p>
-<ol aria-label="Team migration to Kubernetes">
-<li><strong>Existing services</strong><span>Applications on the previous infrastructure.</span></li>
-<li><strong>Containerization</strong><span>Package services to run in containers.</span></li>
-<li><strong>Internal Kubernetes</strong><span>Run the applications as workloads in pods.</span></li>
-</ol>
+<figure class="architecture-diagram">
+<p class="architecture-label">Team Kubernetes migration</p>
+<picture>
+<source media="(max-width: 34rem)" srcset="/diagrams/ame-kubernetes-mobile.svg" />
+<img src="/diagrams/ame-kubernetes.svg" alt="Team Kubernetes migration: Existing services; Container images; Internal Kubernetes; Senior engineers; My contribution. Arrows show component connections." width="760" height="324" loading="lazy" />
+</picture>
 <figcaption>I assisted the migration. Platform design, containerization and the overall result were team work.</figcaption>
 </figure>
 

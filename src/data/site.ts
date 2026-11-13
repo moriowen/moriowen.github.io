@@ -19,7 +19,7 @@ export const links = [
 
 // Header lines under the name. The long version is src/content/pages/about.md.
 export const tagline = [
-  `MS CS at Georgia Tech 🐝, specializing in Machine Learning, after close to four years on
+  `MS CS at Georgia Tech 🐝, specializing in Machine Learning, after working on
    distributed systems at JP Morgan Chase. Lately tinkering with ML systems and local LLMs.`,
   `Away from a keyboard: boxing, playing pool, lifting, running, and writing.
    Collecting places to go and poems worth rereading.`,

@@ -18,6 +18,17 @@ bullets:
   - Built an explorer that drills from aggregate accuracy down to raw model output, plus an error taxonomy separating wrong digits, rounding, and precision on division from character, length, and ordering errors on reversal.
 ---
 
+<figure class="system-flow">
+<p class="system-flow-label">Checkable prompting experiments</p>
+<ol aria-label="Checkable prompting experiments">
+<li><strong>Experiment grid</strong><span>Models, temperatures and prompting strategies.</span></li>
+<li><strong>Ollama inference</strong><span>Run reversal and decimal-division tasks.</span></li>
+<li><strong>Python ground truth</strong><span>Grade results independently of an LLM.</span></li>
+<li><strong>Result explorer</strong><span>Inspect aggregate accuracy and individual errors.</span></li>
+</ol>
+<figcaption>Every displayed result can be traced back to a model response and a checkable answer.</figcaption>
+</figure>
+
 ## Why these two tasks
 
 Most prompting advice gets argued over tasks where the answer is a matter of taste. Reversing a

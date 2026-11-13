@@ -1,0 +1,45 @@
+# JPMC experience writeup source review
+
+Updated from Atharva's interview-preparation account on November 12, 2026. The private answer
+bank retains the detailed recollections and open questions. This note records the boundaries
+used for the public full-time experience pages.
+
+## Confirmed scope
+
+- AME evolved from a monolith into seven services. Atharva did not personally create all seven.
+- Matching: joined about six months into the project and helped generalize a single-business-line
+  implementation, contributing design and substantial implementation code in Kafka/WebFlux.
+- EOD: multithreaded DB-to-queue dispatch, memory debugging and concurrent work pickup across pods.
+  A particular locking algorithm, idempotent replay and a measured cutoff result are not established.
+- Client-data search: substantial implementation ownership, especially search/query construction;
+  consolidated reference data, synchronous Elasticsearch searches and asynchronous Kafka updates.
+  Sub-150ms retrieval is reported; percentile, benchmark load, 750k record count and four-system
+  retirement were not independently reconciled in this discussion.
+- Kubernetes: assisted senior engineers. Approximately $450k annual savings belongs to the team.
+  Individual ownership of 15 migrations and a 50% deployment speedup are not established.
+- New business flow: existing shared platform; roughly 5-6M trades was projected load, not attained
+  production throughput observed before departure. Time interval not established, so no daily unit added.
+- ADLC: key setup contributions were documentation structure, local-testing integration and colleague
+  enablement. Jira/Bitbucket MCP and Symphony are recalled. Not all services were containerized;
+  service startup and Dockerization were other contributors' work. Exact trigger, branch sequence,
+  enforced test gates and validated PR acceptance rate remain open.
+- Testing: personally built Groovy framework, with substantial Claude assistance; MQ/Kafka/DB
+  access, replay, polling and assertions. 300+ fixed-income scenarios, mandatory workflow with
+  roughly 50 people interacting. No validated 90% manual-effort or error-reduction metric supplied.
+- Aggregation: personally implemented; multi-field netting ID, roughly five-second aggregation,
+  release about one hour before EOD. Approximately 70% instruction reduction is an estimate.
+
+## Editorial choices
+
+Use functional names for employer services in diagrams. Diagram stages summarize responsibilities,
+not precise transaction boundaries, deployment topology or a fully automatic enforced sequence.
+Do not publish proposed reconstructions as historical implementations. Keep undocumented financial
+thresholds, tax names and zero-net splitting mechanics out of the public account.
+
+Existing role dates are retained pending reconciliation; the resume and site use different dates.
+The resume source and PDF are not modified by this website update. The internship pages remain
+outside this interview-preparation scope; their older TODOs require separate evidence.
+
+Personal project diagrams summarize their existing writeups. Splice's serving and quality paths
+remain separate. Canary's cost estimate uses character lengths as a proxy for context processing,
+not measured billed tokens or GPU time.

@@ -8,18 +8,33 @@ cover:
 order: 3
 summary: >-
   A monitor that watches an AI coding agent while it works and stops runs that are heading for
-  failure. On 16,140 held-out SWE-agent runs it cuts agent compute by 46% while stopping 2% of the
+  failure. In offline evaluation on 16,140 held-out SWE-agent runs it saves 46% of estimated context-processing cost while stopping 2% of the
   runs that would have succeeded, against 25% for the best fixed turn limit.
 external:
   - label: Code
     href: https://github.com/moriowen/canary
 bullets:
-  - Built a failure monitor for AI coding agents that cuts compute by 46% on 16,140 held-out SWE-agent runs while stopping only 2% of the runs that would have succeeded, against 25% for the best fixed turn limit.
+  - Built a failure monitor for AI coding agents that saves 46% of estimated context-processing cost in offline evaluation on 16,140 held-out SWE-agent runs while stopping 2% of the runs that would have succeeded, against 25% for the best fixed turn limit.
   - Parsed 147k trajectories from two agent frameworks (SWE-agent and OpenHands) into one action schema, and trained logistic regression, LightGBM, a within-issue LightGBM ranker, a GRU and a fine-tuned ModernBERT on Georgia Tech's PACE cluster.
   - Built an LLM failure taxonomy over 14,644 failed runs with Qwen3-30B on vLLM and showed the monitor stops 56% of misdiagnosed-cause failures early but only 12% of over-simplified fixes.
   - Clustered 56,775 failed runs by behaviour alone with a Gaussian mixture into four archetypes, and found the monitor stops 74% of looping runs but only 10% of quick patches that never run a test.
   - Measured how much early failure prediction is really task difficulty, AUROC 0.70 across all runs at turn 5 against 0.54 between attempts at the same issue, after finding and removing issue-level features that let models memorise per-issue solve rates.
 ---
+
+<figure class="system-flow">
+<p class="system-flow-label">Early stopping for agent runs</p>
+<ol aria-label="Early stopping for agent runs">
+<li><strong>Recorded trajectories</strong><span>Normalize agent actions and observed outcomes.</span></li>
+<li><strong>Prefix monitor</strong><span>Estimate success from the run so far.</span></li>
+<li><strong>Stopping policy</strong><span>Stop below a threshold chosen for a success-loss budget.</span></li>
+<li><strong>Offline evaluation</strong><span>Compare estimated context cost saved and successes lost.</span></li>
+</ol>
+<figcaption>The reported savings come from replaying logged runs, not a production deployment.</figcaption>
+</figure>
+
+I built Canary as a personal project to explore how ML can help agents work more effectively.
+My interest was in the systems around an agent: recognizing wasted effort early enough to avoid
+spending the rest of a run on it.
 
 <div class="glance">
 <p class="glance-label">At a glance</p>
@@ -31,7 +46,7 @@ bullets:
 <dt>Setup</dt>
 <dd>80,036 SWE-agent runs (Llama 8B, 70B and 405B) on 3,591 GitHub issues, and 67,074 OpenHands runs. Splits are by issue. Models trained on PACE ICE (A100, L40S, H100).</dd>
 <dt>Headline</dt>
-<dd>A GRU monitor saves 46.5% of context-token compute at 2% of successful runs lost, and 60.3% at 5%. The best fixed turn limit saves 24.6% and 39.6%.</dd>
+<dd>A GRU monitor saves 46.5% of estimated context-processing cost at 2% of successful runs lost, and 60.3% at 5%. The best fixed turn limit saves 24.6% and 39.6%.</dd>
 <dt>Status</dt>
 <dd>Fall 2026. All experiments have run: the monitors, a fine-tuned ModernBERT model, ensembles, the cross-agent transfer test, the LLM failure taxonomy and the unsupervised archetypes.</dd>
 </dl>
@@ -79,6 +94,10 @@ turn 5 from 0.665 to 0.699.
 
 On the 16,140 SWE-agent test runs (718 issues), the question is how much compute a monitor saves
 for a given share of successful runs it is allowed to stop.
+
+These are offline stopping-policy estimates from logged trajectories. Compute saved counts the
+context that would have been processed after stopping, using accumulated character lengths as
+a cost proxy. It is not an exact count of billed tokens or a measured production GPU saving.
 
 | Monitor | Compute saved, 2% of successes lost | 5% lost | 10% lost |
 |---|---:|---:|---:|

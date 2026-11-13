@@ -836,3 +836,106 @@ section.bare {
     break-inside: avoid;
   }
 }
+
+/* Static workflow diagrams: semantic lists, no client-side renderer. */
+.prose .system-flow {
+  margin: 1.4rem 0 1.8rem;
+  padding: 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--link) 3%, var(--bg));
+  break-inside: avoid;
+}
+
+.system-flow-label {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.73rem;
+  line-height: 1.5;
+  letter-spacing: 0.025em;
+}
+
+.prose .system-flow ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: workflow;
+}
+
+.prose .system-flow li {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.8fr) minmax(0, 1.5fr);
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  margin: 0 0 1.15rem 2.35rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--bg);
+  counter-increment: workflow;
+}
+
+.prose .system-flow li:last-child {
+  margin-bottom: 0;
+}
+
+.system-flow li::before {
+  content: counter(workflow, decimal-leading-zero);
+  position: absolute;
+  left: -2.35rem;
+  top: 0.75rem;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1px solid color-mix(in srgb, var(--link) 35%, var(--rule));
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--link);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  line-height: 1.55rem;
+  text-align: center;
+}
+
+.system-flow li:not(:last-child)::after {
+  content: "\2193";
+  position: absolute;
+  left: -2.35rem;
+  top: 2.45rem;
+  bottom: -0.95rem;
+  width: 1.65rem;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  color: var(--link);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.system-flow li strong {
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.system-flow li span {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.prose .system-flow figcaption {
+  margin: 0.85rem 0 0;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 34rem) {
+  .prose .system-flow {
+    padding: 0.85rem;
+  }
+
+  .prose .system-flow li {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0.65rem 0.75rem;
+  }
+}

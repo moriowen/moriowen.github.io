@@ -18,8 +18,13 @@ export async function getStaticPaths() {
 }
 
 const { entry, section } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const d = entry.data;
+const contents = d.contents.map((item) => {
+  const heading = headings.find((h) => h.depth === 2 && h.text === item.heading);
+  if (!heading) throw new Error(`Missing contents heading in ${entry.id}: ${item.heading}`);
+  return { ...item, href: `#${heading.slug}` };
+});
 ---
 
 <Base title={`${d.title} - ${site.name}`} description={d.summary ?? section.blurb}>
@@ -51,7 +56,7 @@ const d = entry.data;
             {(r.where || r.kind) && (
               <p class="role-where">{[r.kind, r.where].filter(Boolean).join(' \u00b7 ')}</p>
             )}
-            {r.bullets.length > 0 && (
+            {contents.length === 0 && r.bullets.length > 0 && (
               <ul class="bullets">
                 {r.bullets.map((b) => (
                   <li>{b}</li>
@@ -61,6 +66,24 @@ const d = entry.data;
           </div>
         ))}
       </div>
+    )
+  }
+
+  {
+    contents.length > 0 && (
+      <nav class="page-contents" aria-labelledby="page-contents-title">
+        <h2 id="page-contents-title">On this page</h2>
+        <ol>
+          {contents.map((item) => (
+            <li>
+              <a href={item.href}>
+                <span class="contents-title">{item.heading}</span>
+                <span class="contents-description">{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
     )
   }
 

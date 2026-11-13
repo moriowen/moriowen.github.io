@@ -939,3 +939,86 @@ section.bare {
     padding: 0.65rem 0.75rem;
   }
 }
+
+/* Detail-page contents: short descriptions and native section anchors. */
+.page-contents {
+  margin-top: 2rem;
+}
+
+.page-contents h2 {
+  margin-bottom: 0.6rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page-contents ol {
+  counter-reset: contents;
+}
+
+.page-contents li {
+  border-top: 1px solid var(--rule);
+  counter-increment: contents;
+}
+
+.page-contents li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.page-contents a {
+  position: relative;
+  display: block;
+  padding: 0.85rem 1.5rem 0.85rem 2.3rem;
+  color: var(--fg);
+  border-radius: 4px;
+}
+
+.page-contents a::before {
+  content: counter(contents, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+
+.page-contents a::after {
+  content: "\2193";
+  position: absolute;
+  right: 0.25rem;
+  top: 0.9rem;
+  color: var(--link);
+}
+
+.page-contents a:hover {
+  text-decoration: none;
+  background: color-mix(in srgb, var(--link) 4%, var(--bg));
+}
+
+.page-contents a:hover .contents-title {
+  color: var(--link);
+}
+
+.contents-title,
+.contents-description {
+  display: block;
+}
+
+.contents-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.contents-description {
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.prose h2[id] {
+  scroll-margin-top: 1.5rem;
+}

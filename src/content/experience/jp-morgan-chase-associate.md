@@ -7,6 +7,17 @@ summary: >-
   Worked on a new business flow across a seven-service settlement platform. Helped set up an
   agent-assisted development workflow, built a Groovy E2E framework covering 300+ fixed-income
   scenarios, and implemented a netting aggregator to reduce settlement instructions.
+contents:
+  - heading: "The settlement workflow"
+    description: "How a trade moves through AME to the market and back."
+  - heading: "A new business flow on a shared platform"
+    description: "Adapted a new flow across seven existing services."
+  - heading: "An agent-assisted Jira-to-PR workflow"
+    description: "Set up shared context and local-testing integration for Claude Code."
+  - heading: "E2E regression across 300+ scenarios"
+    description: "Built the Groovy framework for message replay and database checks."
+  - heading: "Netting trades into fewer instructions"
+    description: "Aggregated compatible trades before scheduled release."
 roles:
   - title: Software Engineer II (Associate)
     when: Jan 2026 - Jul 2026
@@ -20,11 +31,8 @@ roles:
 
 ## The settlement workflow
 
-I worked on Asset Movement Engine, a settlement platform that evolved from a monolith into seven
-services. Five handled the main processing flow and two handled end-of-day work. A trade entered
-through the service responsible for trade state, became a settlement instruction, and went through
-an outbound gateway that converted it into a SWIFT message for the market. Incoming market
-confirmations and status updates took the return path through matching and back into trade state.
+Asset Movement Engine was the seven-service settlement platform I worked on. Its main flow
+turned trades into market instructions and matched incoming confirmations back to trade state.
 
 <figure class="system-flow">
 <p class="system-flow-label">Trade to market, then back to trade state</p>
@@ -38,12 +46,18 @@ confirmations and status updates took the return path through matching and back 
 <figcaption>Simplified straight-through processing flow. Business-line rules add branches to this path.</figcaption>
 </figure>
 
+I worked on Asset Movement Engine, a settlement platform that evolved from a monolith into seven
+services. Five handled the main processing flow and two handled end-of-day work. A trade entered
+through the service responsible for trade state, became a settlement instruction, and went through
+an outbound gateway that converted it into a SWIFT message for the market. Incoming market
+confirmations and status updates took the return path through matching and back into trade state.
+
+
+
 ## A new business flow on a shared platform
 
-My work was product-facing engineering: understanding the business flow, helping adapt it across
-shared services, and supporting production readiness. Much of the platform code already existed
-and had been running for years. Changes for one line of business had to coexist with the behavior
-other business lines already depended on.
+I helped adapt a new business flow across existing services, working on business requirements,
+cross-service behavior and production readiness.
 
 <figure class="system-flow">
 <p class="system-flow-label">Adapting an existing platform</p>
@@ -56,6 +70,11 @@ other business lines already depended on.
 <figcaption>The design targeted projected growth. Regression coverage connected business requirements to platform readiness.</figcaption>
 </figure>
 
+My work was product-facing engineering: understanding the business flow, helping adapt it across
+shared services, and supporting production readiness. Much of the platform code already existed
+and had been running for years. Changes for one line of business had to coexist with the behavior
+other business lines already depended on.
+
 The projected load was roughly five to six million trades. I left before that volume arrived, so
 it remained a design target when I left.
 The important challenge was coordinating the new behavior across an established platform while
@@ -63,11 +82,8 @@ preserving existing business rules.
 
 ## An agent-assisted Jira-to-PR workflow
 
-I was one of the engineers helping set up this effort alongside senior engineers and architects.
-My contributions were the shared documentation structure, integration of local testing, and
-helping colleagues use Claude Code with the services. Other contributors handled service startup
-and containerization. The local setup included both Dockerized and non-containerized services;
-the older settlement-state service was particularly difficult to run locally.
+I helped set up a Claude Code development workflow, contributing the shared documentation
+structure, local-testing integration and guidance for colleagues.
 
 <figure class="system-flow">
 <p class="system-flow-label">Requirements to a reviewable change</p>
@@ -81,6 +97,12 @@ the older settlement-state service was particularly difficult to run locally.
 <figcaption>The shared context and test framework supported changes across the service repositories.</figcaption>
 </figure>
 
+I was one of the engineers helping set up this effort alongside senior engineers and architects.
+My contributions were the shared documentation structure, integration of local testing, and
+helping colleagues use Claude Code with the services. Other contributors handled service startup
+and containerization. The local setup included both Dockerized and non-containerized services;
+the older settlement-state service was particularly difficult to run locally.
+
 Each team contributed service documentation and differences between business lines to a common
 agent-development repository. When adding behavior to one business line, the agent could consult
 related behavior in another instead of relying on a single service's code. The challenge was
@@ -91,11 +113,8 @@ team used it. My strongest implementation contribution was the testing framework
 
 ## E2E regression across 300+ scenarios
 
-I built a Groovy framework that drove settlement workflows by playing sets of messages,
-connecting to message queues and Kafka brokers, and fetching or saving data in databases. It
-initially ran against services in the development environment and was later integrated with local
-services. Groovy was required by the framework we chose; an internal reporting tool also let us
-email stakeholders when important tests failed.
+I built a Groovy framework to replay messages through settlement workflows and check database
+outcomes across more than 300 fixed-income scenarios.
 
 <figure class="system-flow">
 <p class="system-flow-label">One regression scenario</p>
@@ -107,6 +126,12 @@ email stakeholders when important tests failed.
 </ol>
 <figcaption>The framework drove real services in dev and later locally. Independent work could run in parallel.</figcaption>
 </figure>
+
+I built a Groovy framework that drove settlement workflows by playing sets of messages,
+connecting to message queues and Kafka brokers, and fetching or saving data in databases. It
+initially ran against services in the development environment and was later integrated with local
+services. Groovy was required by the framework we chose; an internal reporting tool also let us
+email stakeholders when important tests failed.
 
 The difficult part was translating financial behavior into assertions. A small change in an input
 field could alter charges, settlement amounts and netting farther along the flow. I had to trace
@@ -125,10 +150,8 @@ have a measured error-reduction percentage.
 
 ## Netting trades into fewer instructions
 
-I implemented the aggregator that consolidated eligible trades into net settlement instructions.
-For example, two eligible obligations of 100 and 50 in opposite directions can become one net
-obligation of 50. This reduces the instructions sent downstream for conversion into SWIFT
-messages, while retaining the underlying trade records.
+I implemented the aggregator that grouped eligible trades into net settlement instructions,
+reducing the volume sent downstream for conversion into SWIFT messages.
 
 <figure class="system-flow">
 <p class="system-flow-label">Aggregation and release</p>
@@ -141,6 +164,11 @@ messages, while retaining the underlying trade records.
 </ol>
 <figcaption>Grouping and frequent aggregation are separate from the scheduled release.</figcaption>
 </figure>
+
+I implemented the aggregator that consolidated eligible trades into net settlement instructions.
+For example, two eligible obligations of 100 and 50 in opposite directions can become one net
+obligation of 50. This reduces the instructions sent downstream for conversion into SWIFT
+messages, while retaining the underlying trade records.
 
 Different netting types and business lines had different grouping rules. The main challenge was
 getting the arithmetic and edge cases right without breaking the existing aggregation engine.

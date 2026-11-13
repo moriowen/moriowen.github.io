@@ -7,6 +7,15 @@ summary: >-
   Generalized a Kafka and WebFlux matching service for reuse across business lines, worked on
   end-of-day bulk dispatch, and implemented most of a client-data service with sub-150ms search.
   Also assisted senior engineers with the team's Kubernetes migration.
+contents:
+  - heading: "Generalizing the matching service"
+    description: "Extended business-specific processing for reuse across business lines."
+  - heading: "End-of-day bulk message dispatch"
+    description: "Worked on concurrent publishing, memory issues and safe work pickup."
+  - heading: "Consolidated client-data search"
+    description: "Built search over a Kafka-maintained Elasticsearch read layer."
+  - heading: "Supporting the Kubernetes migration"
+    description: "Assisted senior engineers with the move to the internal platform."
 roles:
   - title: Software Engineer I (Analyst)
     when: Jun 2023 - Jan 2026
@@ -20,11 +29,8 @@ roles:
 
 ## Generalizing the matching service
 
-The matching service received SWIFT confirmations and status updates from the market and
-identified the corresponding trade. It was part of the work to split the settlement monolith into
-services. I joined roughly six months after the project started, when the implementation was
-specific to one line of business. My assignment was to help make it reusable by other business
-lines.
+I helped generalize the Kafka and WebFlux matching service from a single-business-line
+implementation into reusable processing for other business lines.
 
 <figure class="system-flow">
 <p class="system-flow-label">Matching as a composable processing pipeline</p>
@@ -37,6 +43,12 @@ lines.
 <figcaption>Kafka and Spring WebFlux supported the matching service; common processing was designed for reuse.</figcaption>
 </figure>
 
+The matching service received SWIFT confirmations and status updates from the market and
+identified the corresponding trade. It was part of the work to split the settlement monolith into
+services. I joined roughly six months after the project started, when the implementation was
+specific to one line of business. My assignment was to help make it reusable by other business
+lines.
+
 I contributed to the design and wrote substantial implementation code. We organized processing
 as composable functions: enrich a message, transform its data, and pass the result into the next
 step. The purpose was to share common processing rather than copy an entire workflow for each
@@ -47,9 +59,8 @@ existing implementation. The design goal was a shared implementation that could 
 
 ## End-of-day bulk message dispatch
 
-An end-of-day message triggered a large database-to-queue workload. Millions of messages needed
-to reach downstream services in a short window. We used multithreaded processing to retrieve
-data and publish messages quickly, with multiple pods of the same service working concurrently.
+I worked on multithreaded dispatch of millions of end-of-day messages, debugging memory
+problems and coordinating database work pickup across pods.
 
 <figure class="system-flow">
 <p class="system-flow-label">Concurrent end-of-day dispatch</p>
@@ -62,6 +73,10 @@ data and publish messages quickly, with multiple pods of the same service workin
 <figcaption>Coordination between workers prevented pods from claiming the same work concurrently.</figcaption>
 </figure>
 
+An end-of-day message triggered a large database-to-queue workload. Millions of messages needed
+to reach downstream services in a short window. We used multithreaded processing to retrieve
+data and publish messages quickly, with multiple pods of the same service working concurrently.
+
 I worked on this dispatch flow and personally debugged memory problems. Another challenge was
 race conditions when pods tried to pick up the same database work. We implemented coordination
 that let pods pick up and process different work concurrently.
@@ -71,10 +86,8 @@ release window. Sending work to the queue was only this service's part of downst
 
 ## Consolidated client-data search
 
-This service brought together client data from multiple reference-data providers. The source
-structure was complex, and assembling a complete client view otherwise required several table
-joins. We used Elasticsearch as a search layer over the database, with precomputed data organized
-for retrieval.
+I implemented most of a client-data service, with primary ownership of search and query
+construction over an Elasticsearch layer that supported sub-150ms retrieval.
 
 <figure class="system-flow">
 <p class="system-flow-label">Asynchronous updates, synchronous search</p>
@@ -86,6 +99,11 @@ for retrieval.
 </ol>
 <figcaption>The search view could lag source updates. Read requests were synchronous; update processing was separate.</figcaption>
 </figure>
+
+This service brought together client data from multiple reference-data providers. The source
+structure was complex, and assembling a complete client view otherwise required several table
+joins. We used Elasticsearch as a search layer over the database, with precomputed data organized
+for retrieval.
 
 I implemented most of the service, with primary ownership of the search component and query
 construction. The search path delivered sub-150ms retrieval. The result depended on both the
@@ -102,10 +120,8 @@ shape a service's read performance.
 
 ## Supporting the Kubernetes migration
 
-I assisted senior engineers with the team's move from on-premises infrastructure to an internal
-Kubernetes platform. The migration included containerizing services so they could run in pods.
-I was early in my development career, and most of the migration work was led and implemented by
-senior engineers.
+I assisted senior engineers with migrating services from on-premises infrastructure to the
+firm's internal Kubernetes platform.
 
 <figure class="system-flow">
 <p class="system-flow-label">Team migration to Kubernetes</p>
@@ -116,6 +132,11 @@ senior engineers.
 </ol>
 <figcaption>I assisted the migration. Platform design, containerization and the overall result were team work.</figcaption>
 </figure>
+
+I assisted senior engineers with the team's move from on-premises infrastructure to an internal
+Kubernetes platform. The migration included containerizing services so they could run in pods.
+I was early in my development career, and most of the migration work was led and implemented by
+senior engineers.
 
 The initiative reported approximately $450k in annual infrastructure savings. That was the team's
 result, not savings I delivered individually. I treat this as supporting infrastructure

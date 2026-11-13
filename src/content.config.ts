@@ -17,6 +17,9 @@ const entry = z.object({
   meta: z.string().optional(),
   summary: z.string().optional(),
   bullets: z.array(z.string()).default([]),
+  contents: z
+    .array(z.object({ heading: z.string(), description: z.string() }))
+    .default([]),
   // Multiple stints at one employer: the company is the entry, roles nest under it.
   roles: z
     .array(
